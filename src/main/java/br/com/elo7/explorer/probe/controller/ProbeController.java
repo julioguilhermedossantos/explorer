@@ -1,6 +1,7 @@
 package br.com.elo7.explorer.probe.controller;
 
-import br.com.elo7.explorer.probe.dto.ProbeDTO;
+import br.com.elo7.explorer.probe.dto.ProbeRequestDTO;
+import br.com.elo7.explorer.probe.dto.ProbeResponseDTO;
 import br.com.elo7.explorer.probe.service.ProbeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,12 +20,12 @@ public class ProbeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@Valid @RequestBody ProbeDTO probeDTO){
-        probeService.create(probeDTO);
+    public void create(@Valid @RequestBody ProbeRequestDTO ProbeRequestDTO){
+        probeService.create(ProbeRequestDTO);
     }
 
     @GetMapping
-    public ResponseEntity<List<ProbeDTO>> list(){
+    public ResponseEntity<List<ProbeResponseDTO>> list(){
         return ResponseEntity.ok().body(probeService.getAll());
     }
 

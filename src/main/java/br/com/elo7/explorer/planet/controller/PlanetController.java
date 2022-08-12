@@ -1,6 +1,7 @@
 package br.com.elo7.explorer.planet.controller;
 
-import br.com.elo7.explorer.planet.dto.PlanetDTO;
+import br.com.elo7.explorer.planet.dto.PlanetRequestDTO;
+import br.com.elo7.explorer.planet.dto.PlanetResponseDTO;
 import br.com.elo7.explorer.planet.service.PlanetService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,17 +22,17 @@ public class PlanetController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@Valid @RequestBody PlanetDTO planetDTO){
+    public void create(@Valid @RequestBody PlanetRequestDTO planetRequestDTO){
         log.info(
                 "[CONTROLLER] : Criando {} com tamanhos X({}) e Y({})",
-                planetDTO.getName(),
-                planetDTO.getSurface().getAxleX(),
-                planetDTO.getSurface().getAxleY());
-        planetService.createPlanet(planetDTO);
+                planetRequestDTO.getName(),
+                planetRequestDTO.getSurface().getAxleX(),
+                planetRequestDTO.getSurface().getAxleY());
+        planetService.createPlanet(planetRequestDTO);
     }
 
     @GetMapping
-    public ResponseEntity<List<PlanetDTO>> getAllPlanets(){
+    public ResponseEntity<List<PlanetResponseDTO>> getAllPlanets(){
         log.info("[CONTROLLER]");
        return ResponseEntity.ok().body(planetService.listPlanets());
     }
