@@ -32,10 +32,9 @@ public class Planet {
 
     @JsonManagedReference
     @JoinColumn(name="planet_id")
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     private Set<Probe> exploringProbes;
 
-    @SneakyThrows
     public Boolean hasProbeLandedAt(Position position){
         return exploringProbes.stream()
                 .parallel()
