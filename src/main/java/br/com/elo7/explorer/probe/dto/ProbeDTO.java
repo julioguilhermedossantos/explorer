@@ -25,7 +25,6 @@ public class ProbeDTO {
 
     private String pointTo;
 
-    @Null
     private PlanetDTO currentExploringPlanet;
 
     @SneakyThrows
