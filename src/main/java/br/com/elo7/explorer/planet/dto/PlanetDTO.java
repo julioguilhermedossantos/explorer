@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Null;
+import javax.validation.constraints.Pattern;
 import java.util.Set;
 
 @Getter
@@ -25,8 +26,6 @@ public class PlanetDTO {
 
     @NotEmpty
     private String name;
-
-    private PointTo pointTo;
 
     @Valid
     private SurfaceDTO surface;

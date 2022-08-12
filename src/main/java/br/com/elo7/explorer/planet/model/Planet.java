@@ -1,5 +1,6 @@
 package br.com.elo7.explorer.planet.model;
 
+import br.com.elo7.explorer.probe.enums.PointTo;
 import br.com.elo7.explorer.probe.model.Probe;
 import lombok.*;
 
@@ -18,7 +19,10 @@ public class Planet {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "planet_sequence")
     @SequenceGenerator(name = "planet_sequence", sequenceName = "planet_seq")
     private Long id;
+
     private String name;
+
+    private PointTo pointTo;
 
     @Embedded
     private Surface surface;

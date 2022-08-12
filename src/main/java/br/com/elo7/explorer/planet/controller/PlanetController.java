@@ -23,11 +23,10 @@ public class PlanetController {
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@Valid @RequestBody PlanetDTO planetDTO){
         log.info(
-                "[CONTROLLER] : Criando {} com tamanhos X({}) e Y({}) apontando para {}",
+                "[CONTROLLER] : Criando {} com tamanhos X({}) e Y({})",
                 planetDTO.getName(),
                 planetDTO.getSurface().getAxleX(),
-                planetDTO.getSurface().getAxleY(),
-                planetDTO.getPointTo().value);
+                planetDTO.getSurface().getAxleY());
         planetService.createPlanet(planetDTO);
     }
 
