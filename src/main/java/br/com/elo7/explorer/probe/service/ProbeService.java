@@ -14,11 +14,13 @@ import br.com.elo7.explorer.probe.repository.ProbeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProbeService {
@@ -28,6 +30,7 @@ public class ProbeService {
     private final ObjectMapper objectMapper;
 
     public List<ProbeResponseDTO> getAll() {
+        log.info("[PROBE SERVICE] Listando sondas");
         return probeRepository.findAll()
                 .stream()
                 .map(probe ->
@@ -43,6 +46,7 @@ public class ProbeService {
 
     @SneakyThrows
     public void create(ProbeRequestDTO probeRequestDTO) {
+        log.info(String.format("[PROBE SERVICE] Criando sonda %s", probeRequestDTO.getName()));
         var targetPlanet = planetRepository.findById(probeRequestDTO.getPlanetId())
                 .orElseThrow(() -> new UnknownPlanetException("Planeta não registrado!"));
 
@@ -61,6 +65,9 @@ public class ProbeService {
                 .currentExlporingPlanet(targetPlanet)
                 .position(objectMapper.convertValue(probeRequestDTO.getPosition(), Position.class))
                 .build();
+
+        targetPlanet.getExploringProbes().add(probe);
+
         probeRepository.saveAndFlush(probe);
     }
 }

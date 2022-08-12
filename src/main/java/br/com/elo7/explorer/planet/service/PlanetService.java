@@ -24,12 +24,12 @@ public class PlanetService {
 
     @SneakyThrows
     public void createPlanet(PlanetRequestDTO planetRequestDTO) {
-        log.info("[SERVICE] Criando planeta");
+        log.info("[PLANET SERVICE] Criando planeta");
         planetRepository.saveAndFlush(objectMapper.convertValue(planetRequestDTO, Planet.class));
     }
 
     public List<PlanetResponseDTO> listPlanets() {
-        log.info("[SERVICE] Listando planetas");
+        log.info("[PLANET SERVICE] Listando planetas");
         List<PlanetRequestDTO> list = new ArrayList<>();
         return planetRepository.findAll()
                 .stream()
@@ -39,7 +39,7 @@ public class PlanetService {
 
     @SneakyThrows
     public void deletePlanet(Long id) {
-        log.info("[SERVICE] deletando planeta");
+        log.info("[PLANET SERVICE] deletando planeta");
         planetRepository.deleteById(id);
     }
 }
