@@ -43,8 +43,6 @@ public class Planet {
     }
 
     public Boolean isRequiredPositionExceedingOrbitalLimit(Position position){
-        if(position.getCoordinateX() > surface.getAxleX() || position.getCoordinateY() > surface.getAxleY())
-            throw new OrbitalLimitExceededException("Fora da órbita!");
-        return false;
+        return position.getCoordinateX() > surface.getAxleX() || position.getCoordinateY() > surface.getAxleY();
     }
 }
