@@ -7,11 +7,13 @@ import javax.persistence.Embeddable;
 @Getter
 @Setter
 @Builder
+@Embeddable
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@Embeddable
 public class Position {
 
     private Integer coordinateX;
     private Integer coordinateY;
+
 }
