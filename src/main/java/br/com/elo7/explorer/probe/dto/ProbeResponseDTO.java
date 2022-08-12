@@ -1,6 +1,7 @@
 package br.com.elo7.explorer.probe.dto;
 
 import br.com.elo7.explorer.planet.dto.PlanetResponseDTO;
+import br.com.elo7.explorer.probe.enums.PointTo;
 import lombok.*;
 
 @Getter
@@ -16,7 +17,7 @@ public class ProbeResponseDTO {
 
     private PositionDTO position;
 
-    private String pointTo;
+    private PointTo pointTo;
 
     private PlanetResponseDTO planet;
 }
