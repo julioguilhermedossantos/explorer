@@ -41,4 +41,10 @@ public class ExceptionsHandler {
         log.error("[ExceptionsHandler] OrbitalLimitExceededException");
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
+
+    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
+    public ResponseEntity<ErrorMessage> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        log.error("[ExceptionsHandler] HttpMessageNotReadableException");
+        return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
+    }
 }
