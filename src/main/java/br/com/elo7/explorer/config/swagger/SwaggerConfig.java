@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI contentaAPI() {
+    public OpenAPI swagger() {
         return new OpenAPI()
                 .info(new Info().title("Desafio elo7 - Sondas e planetas")
                         .description("API explorer")
