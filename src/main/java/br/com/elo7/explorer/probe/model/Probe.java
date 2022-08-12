@@ -1,6 +1,7 @@
 package br.com.elo7.explorer.probe.model;
 
 import br.com.elo7.explorer.planet.model.Planet;
+import br.com.elo7.explorer.probe.enums.PointTo;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,10 +18,13 @@ public class Probe {
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "probe_sequence")
     @SequenceGenerator(name = "probe_sequence", sequenceName = "probe_seq")
     private Long id;
+
     private String name;
 
     @Embedded
     private Position position;
+
+    private String pointingTo;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="planet_id")
