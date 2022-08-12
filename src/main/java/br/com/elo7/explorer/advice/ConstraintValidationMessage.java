@@ -5,12 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
+import java.util.Map;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ErrorMessage {
+public class ConstraintValidationMessage {
 
     private HttpStatus status;
-    private String error;
-
+    private Map<String, String> errors;
 }
