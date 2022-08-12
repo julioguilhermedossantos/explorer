@@ -1,6 +1,7 @@
 package br.com.elo7.explorer.planet.dto;
 
 import br.com.elo7.explorer.probe.dto.ProbeDTO;
+import br.com.elo7.explorer.probe.enums.PointTo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,10 +20,17 @@ import java.util.Set;
 @AllArgsConstructor
 public class PlanetDTO {
 
+    @Null
+    private Long id;
+
     @NotEmpty
     private String name;
+
+    private PointTo pointTo;
+
     @Valid
     private SurfaceDTO surface;
+
     @Null
     private Set<ProbeDTO> exploringProbes;
 }

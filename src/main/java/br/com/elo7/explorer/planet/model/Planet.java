@@ -23,7 +23,7 @@ public class Planet {
     @Embedded
     private Surface surface;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name="planet_id")
     private Set<Probe> exploringProbes;
 }
