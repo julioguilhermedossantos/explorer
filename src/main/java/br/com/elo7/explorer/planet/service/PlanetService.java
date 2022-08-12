@@ -1,6 +1,7 @@
 package br.com.elo7.explorer.planet.service;
 
-import br.com.elo7.explorer.planet.dto.PlanetDTO;
+import br.com.elo7.explorer.planet.dto.PlanetRequestDTO;
+import br.com.elo7.explorer.planet.dto.PlanetResponseDTO;
 import br.com.elo7.explorer.planet.model.Planet;
 import br.com.elo7.explorer.planet.repository.PlanetRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,17 +23,17 @@ public class PlanetService {
     private final ObjectMapper objectMapper;
 
     @SneakyThrows
-    public void createPlanet(PlanetDTO planetDTO) {
+    public void createPlanet(PlanetRequestDTO planetRequestDTO) {
         log.info("[SERVICE] Criando planeta");
-        planetRepository.saveAndFlush(objectMapper.convertValue(planetDTO, Planet.class));
+        planetRepository.saveAndFlush(objectMapper.convertValue(planetRequestDTO, Planet.class));
     }
 
-    public List<PlanetDTO> listPlanets() {
+    public List<PlanetResponseDTO> listPlanets() {
         log.info("[SERVICE] Listando planetas");
-        List<PlanetDTO> list = new ArrayList<>();
+        List<PlanetRequestDTO> list = new ArrayList<>();
         return planetRepository.findAll()
                 .stream()
-                .map(planet -> objectMapper.convertValue(planet, PlanetDTO.class))
+                .map(planet -> objectMapper.convertValue(planet, PlanetResponseDTO.class))
                 .collect(Collectors.toList());
     }
 
