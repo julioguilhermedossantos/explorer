@@ -1,21 +1,19 @@
 package br.com.elo7.explorer.probe.dto;
 
 
-import br.com.elo7.explorer.planet.dto.PlanetDTO;
 import br.com.elo7.explorer.probe.enums.PointTo;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Null;
 
 @Getter
 @Setter
 @Validated
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProbeDTO {
+public class ProbeRequestDTO {
 
     @NotEmpty
     private String name;
@@ -25,7 +23,7 @@ public class ProbeDTO {
 
     private String pointTo;
 
-    private PlanetDTO currentExploringPlanet;
+    private Long planetId;
 
     @SneakyThrows
     public void setPointTo(String value) {
