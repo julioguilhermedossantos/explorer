@@ -1,7 +1,7 @@
 package br.com.elo7.explorer.probe.model;
 
 import br.com.elo7.explorer.planet.model.Planet;
-import br.com.elo7.explorer.probe.enums.PointTo;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Probe {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "probe_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "probe_sequence")
     @SequenceGenerator(name = "probe_sequence", sequenceName = "probe_seq")
     private Long id;
 
@@ -26,7 +26,8 @@ public class Probe {
 
     private String pointingTo;
 
+    @JsonBackReference
+    @JoinColumn(name = "planet_id")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="planet_id")
     private Planet currentExlporingPlanet;
 }

@@ -5,6 +5,7 @@ import br.com.elo7.explorer.advice.excepion.OrbitalLimitExceededException;
 import br.com.elo7.explorer.probe.enums.PointTo;
 import br.com.elo7.explorer.probe.model.Position;
 import br.com.elo7.explorer.probe.model.Probe;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,13 +27,12 @@ public class Planet {
 
     private String name;
 
-    private PointTo pointTo;
-
     @Embedded
     private Surface surface;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @JsonManagedReference
     @JoinColumn(name="planet_id")
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Probe> exploringProbes;
 
     @SneakyThrows
