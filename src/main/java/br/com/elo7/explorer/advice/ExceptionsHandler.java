@@ -1,9 +1,6 @@
 package br.com.elo7.explorer.advice;
 
-import br.com.elo7.explorer.advice.excepion.CollisionExpection;
-import br.com.elo7.explorer.advice.excepion.NotAllowedActionException;
-import br.com.elo7.explorer.advice.excepion.OrbitalLimitExceededException;
-import br.com.elo7.explorer.advice.excepion.ProbeNotFoundException;
+import br.com.elo7.explorer.advice.excepion.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,31 +29,43 @@ public class ExceptionsHandler {
 
     @ExceptionHandler(value = {CollisionExpection.class})
     public ResponseEntity<ErrorMessage> handleCollision(CollisionExpection ex) {
-        log.error("[ExceptionsHandler] CollisionExpection");
-        return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
+        var exceptionMessage = ex.getMessage();
+        log.error("[ExceptionsHandler] CollisionExpection: {}", exceptionMessage);
+        return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage));
     }
 
     @ExceptionHandler(value = {ProbeNotFoundException.class})
     public ResponseEntity<ErrorMessage> handleProbeNotFound(ProbeNotFoundException ex) {
-        log.error("[ExceptionsHandler] ProbeNotFound");
+        var exceptionMessage = ex.getMessage();
+        log.error("[ExceptionsHandler] ProbeNotFoundException: {}", exceptionMessage);
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
     @ExceptionHandler(value = {OrbitalLimitExceededException.class})
     public ResponseEntity<ErrorMessage> handleOrbitalLimitExceeded(OrbitalLimitExceededException ex) {
-        log.error("[ExceptionsHandler] OrbitalLimitExceededException");
+        var exceptionMessage = ex.getMessage();
+        log.error("[ExceptionsHandler] OrbitalLimitExceededException: {}", exceptionMessage);
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
     @ExceptionHandler(value = {HttpMessageNotReadableException.class})
     public ResponseEntity<ErrorMessage> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
-        log.error("[ExceptionsHandler] HttpMessageNotReadableException");
+        var exceptionMessage = ex.getMessage();
+        log.error("[ExceptionsHandler] HttpMessageNotReadableException: {}", exceptionMessage);
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
     @ExceptionHandler(value = {NotAllowedActionException.class})
     public ResponseEntity<ErrorMessage> handleNotAllowedAction(NotAllowedActionException ex) {
-        log.error("[ExceptionsHandler] NotAllowedActionException");
-        return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
+        var exceptionMessage = ex.getMessage();
+        log.error("[ExceptionsHandler] NotAllowedActionException: {}", exceptionMessage);
+        return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage));
+    }
+
+    @ExceptionHandler(value = {UnknownPlanetException.class})
+    public ResponseEntity<ErrorMessage> handleUnknownPlanet(UnknownPlanetException ex) {
+        var exceptionMessage = ex.getMessage();
+        log.error("[ExceptionsHandler] UnknownPlanetException: {}", exceptionMessage);
+        return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage));
     }
 }
