@@ -2,6 +2,7 @@ package br.com.elo7.explorer.probe.model;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Getter
@@ -13,7 +14,10 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 public class Position {
 
+    @Column(name = "coordinate_x")
     private Integer coordinateX;
+
+    @Column(name = "coordinate_y")
     private Integer coordinateY;
 
     public void verticalMove (Integer amount){
