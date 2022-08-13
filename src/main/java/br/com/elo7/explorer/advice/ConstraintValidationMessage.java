@@ -13,5 +13,7 @@ import java.util.Map;
 public class ConstraintValidationMessage {
 
     private HttpStatus status;
+
     private Map<String, String> errors;
+
 }

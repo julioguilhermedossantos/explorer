@@ -22,4 +22,5 @@ public class LandProbeDTO {
     private Long probeId;
     @Valid
     private PositionDTO position;
+
 }

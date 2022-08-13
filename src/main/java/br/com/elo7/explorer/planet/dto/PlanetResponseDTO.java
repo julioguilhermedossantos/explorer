@@ -1,6 +1,5 @@
 package br.com.elo7.explorer.planet.dto;
 
-import br.com.elo7.explorer.probe.dto.ProbeRequestDTO;
 import br.com.elo7.explorer.probe.dto.ProbeResponseDTO;
 import lombok.*;
 
@@ -21,4 +20,5 @@ public class PlanetResponseDTO {
     private SurfaceDTO surface;
 
     private Set<ProbeResponseDTO> exploringProbes;
+
 }

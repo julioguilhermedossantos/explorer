@@ -22,4 +22,5 @@ public class ProbeResponseDTO {
     private PointTo pointTo;
 
     private PlanetResponseDTO planet;
+
 }

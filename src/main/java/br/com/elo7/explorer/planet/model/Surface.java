@@ -19,4 +19,5 @@ public class Surface {
 
     @Column(name = "axis_y")
     private Integer axisY;
+    
 }

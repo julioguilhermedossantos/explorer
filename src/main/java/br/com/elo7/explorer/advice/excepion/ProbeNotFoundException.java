@@ -5,4 +5,5 @@ public class ProbeNotFoundException extends RuntimeException{
     public ProbeNotFoundException(String message) {
         super(message);
     }
+
 }

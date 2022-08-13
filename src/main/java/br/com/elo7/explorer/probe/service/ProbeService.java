@@ -70,16 +70,16 @@ public class ProbeService {
         probeRepository.saveAndFlush(probe);
     }
 
-    public void moveProbe(ActionDTO actionDTO, Long probeId){
+    public void moveProbe(ActionDTO actionDTO, Long probeId) {
 
         var probe = probeRepository.findById(probeId)
                 .orElseThrow(() -> new ProbeNotFoundException("Sonda não encontrada!"));
 
         var actions = actionDTO.getAction().toUpperCase().toCharArray();
 
-        for (char action: actions){
+        for (char action : actions) {
 
-            if(this.isNotAllowedAction(action)){
+            if (this.isNotAllowedAction(action)) {
                 throw new NotAllowedActionException("Ação desconhecida!");
             }
             probe.execute(action);
@@ -88,7 +88,7 @@ public class ProbeService {
         log.info("[final] pointTo: {}, position x({}) y({})", probe.getPointingTo(), probe.getPosition().getCoordinateX(), probe.getPosition().getCoordinateY());
     }
 
-    private boolean isNotAllowedAction(char action){
+    private boolean isNotAllowedAction(char action) {
         return Arrays.stream(AllowedActions.values())
                 .noneMatch(allowedAction -> allowedAction.getValue() == action);
     }

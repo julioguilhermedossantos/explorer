@@ -9,4 +9,5 @@ public enum TurnActions {
     L('L'), R('R');
 
     private final char value;
+    
 }

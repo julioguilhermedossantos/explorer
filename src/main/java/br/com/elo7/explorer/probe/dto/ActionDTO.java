@@ -19,4 +19,5 @@ public class ActionDTO {
     @NotEmpty
     @NotNull
     private String action;
+    
 }

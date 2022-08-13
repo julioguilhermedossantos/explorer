@@ -5,4 +5,5 @@ public class NotAllowedActionException extends RuntimeException {
     public NotAllowedActionException(String message) {
         super(message);
     }
+
 }

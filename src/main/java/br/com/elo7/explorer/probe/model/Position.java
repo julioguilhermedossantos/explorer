@@ -20,11 +20,12 @@ public class Position {
     @Column(name = "coordinate_y")
     private Integer coordinateY;
 
-    public void verticalMove (Integer amount){
+    public void verticalMove(Integer amount) {
         coordinateY += amount;
     }
 
-    public void horizontalMove (Integer amount){
+    public void horizontalMove(Integer amount) {
         coordinateX += amount;
     }
+
 }

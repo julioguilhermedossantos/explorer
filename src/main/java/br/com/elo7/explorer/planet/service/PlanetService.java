@@ -49,4 +49,5 @@ public class PlanetService {
                 .orElseThrow(() -> new UnknownPlanetException("Planeta não encontrado"));
         return objectMapper.convertValue(planet, PlanetResponseDTO.class);
     }
+
 }

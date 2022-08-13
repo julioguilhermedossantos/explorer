@@ -68,4 +68,5 @@ public class ExceptionsHandler {
         log.error("[ExceptionsHandler] UnknownPlanetException: {}", exceptionMessage);
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage));
     }
+
 }

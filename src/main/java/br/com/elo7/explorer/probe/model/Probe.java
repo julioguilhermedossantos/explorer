@@ -39,7 +39,7 @@ public class Probe {
     public void execute(char action) {
         if (isTurnAction(action)) {
             turn(action);
-        }else {
+        } else {
             move();
         }
     }
@@ -52,17 +52,18 @@ public class Probe {
         }
     }
 
-    private boolean isVerticalMove(){
+    private boolean isVerticalMove() {
         return List.of(PointTo.NORTH, PointTo.SOUTH).contains(pointingTo);
     }
 
-    private boolean isTurnAction(char action){
+    private boolean isTurnAction(char action) {
         return Arrays.stream(TurnActions.values())
                 .map(TurnActions::getValue)
                 .anyMatch(turnActions -> action == turnActions);
     }
 
-    private void turn(char action){
+    private void turn(char action) {
         setPointingTo(pointingTo.changeOrientation(action));
     }
+
 }

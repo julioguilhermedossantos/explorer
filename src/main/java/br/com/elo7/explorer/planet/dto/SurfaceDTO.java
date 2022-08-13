@@ -1,6 +1,9 @@
 package br.com.elo7.explorer.planet.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.Positive;
 
@@ -12,6 +15,8 @@ public class SurfaceDTO {
 
     @Positive
     private Integer axisX;
+
     @Positive
     private Integer axisY;
+
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum AllowedActions {
+
     L('L'), R('R'), M('M');
 
     private final char value;
@@ -11,4 +12,5 @@ public enum AllowedActions {
     AllowedActions(char value) {
         this.value = value;
     }
+
 }

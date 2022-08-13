@@ -17,7 +17,7 @@ import java.util.Set;
 public class Planet {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "planet_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "planet_sequence")
     @SequenceGenerator(name = "planet_sequence", sequenceName = "planet_seq")
     private Long id;
 
@@ -27,17 +27,18 @@ public class Planet {
     private Surface surface;
 
     @JsonManagedReference
-    @JoinColumn(name="planet_id")
+    @JoinColumn(name = "planet_id")
     @OneToMany
     private Set<Probe> exploringProbes;
 
-    public Boolean hasProbeLandedAt(Position position){
+    public Boolean hasProbeLandedAt(Position position) {
         return exploringProbes.stream()
                 .parallel()
                 .anyMatch(probe -> probe.getPosition() == position);
     }
 
-    public Boolean isRequiredPositionExceedingOrbitalLimit(Position position){
+    public Boolean isRequiredPositionExceedingOrbitalLimit(Position position) {
         return position.getCoordinateX() > surface.getAxisX() || position.getCoordinateY() > surface.getAxisY();
     }
+
 }

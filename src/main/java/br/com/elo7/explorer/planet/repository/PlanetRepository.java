@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface PlanetRepository extends JpaRepository<Planet, Long> {
 
     public Optional<Planet> findByName(String planetName);
+
 }
