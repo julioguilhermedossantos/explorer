@@ -13,7 +13,6 @@ import br.com.elo7.explorer.probe.model.Probe;
 import br.com.elo7.explorer.probe.repository.ProbeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -74,7 +73,7 @@ public class ProbeService {
     public void moveProbe(ActionDTO actionDTO, Long probeId){
 
         var probe = probeRepository.findById(probeId)
-                .orElseThrow(() -> new ProbeNotFound("Sonda não encontrada!"));
+                .orElseThrow(() -> new ProbeNotFoundException("Sonda não encontrada!"));
 
         var actions = actionDTO.getAction().toUpperCase().toCharArray();
 
@@ -92,5 +91,11 @@ public class ProbeService {
     private boolean isNotAllowedAction(char action){
         return Arrays.stream(AllowedActions.values())
                 .noneMatch(allowedAction -> allowedAction.getValue() == action);
+    }
+
+    public ProbeResponseDTO find(Long id) {
+        var probe = probeRepository.findById(id)
+                .orElseThrow(() -> new ProbeNotFoundException("Sonda não encontrada!"));
+        return objectMapper.convertValue(probe, ProbeResponseDTO.class);
     }
 }
