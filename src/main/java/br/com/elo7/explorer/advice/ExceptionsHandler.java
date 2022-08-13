@@ -1,6 +1,7 @@
 package br.com.elo7.explorer.advice;
 
 import br.com.elo7.explorer.advice.excepion.CollisionExpection;
+import br.com.elo7.explorer.advice.excepion.NotAllowedActionException;
 import br.com.elo7.explorer.advice.excepion.OrbitalLimitExceededException;
 import br.com.elo7.explorer.advice.excepion.ProbeNotFound;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,7 @@ public class ExceptionsHandler {
         log.error("[ExceptionsHandler] CollisionExpection");
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
+
     @ExceptionHandler(value = {ProbeNotFound.class})
     public ResponseEntity<ErrorMessage> handleProbeNotFound(ProbeNotFound ex) {
         log.error("[ExceptionsHandler] ProbeNotFound");
@@ -49,6 +51,12 @@ public class ExceptionsHandler {
     @ExceptionHandler(value = {HttpMessageNotReadableException.class})
     public ResponseEntity<ErrorMessage> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
         log.error("[ExceptionsHandler] HttpMessageNotReadableException");
+        return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
+    }
+
+    @ExceptionHandler(value = {NotAllowedActionException.class})
+    public ResponseEntity<ErrorMessage> handleNotAllowedAction(NotAllowedActionException ex) {
+        log.error("[ExceptionsHandler] NotAllowedActionException");
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 }
