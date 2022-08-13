@@ -1,5 +1,6 @@
 package br.com.elo7.explorer.probe.controller;
 
+import br.com.elo7.explorer.probe.dto.ActionDTO;
 import br.com.elo7.explorer.probe.dto.ProbeRequestDTO;
 import br.com.elo7.explorer.probe.dto.ProbeResponseDTO;
 import br.com.elo7.explorer.probe.service.ProbeService;
@@ -29,4 +30,8 @@ public class ProbeController {
         return ResponseEntity.ok().body(probeService.getAll());
     }
 
+    @PatchMapping("/{probe}")
+    public void moveProbe(@Valid @RequestBody ActionDTO actionDTO, @PathVariable Long probe){
+        probeService.moveProbe(actionDTO, probe);
+    }
 }
