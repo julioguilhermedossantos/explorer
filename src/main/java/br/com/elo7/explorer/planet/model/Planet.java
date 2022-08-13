@@ -1,8 +1,5 @@
 package br.com.elo7.explorer.planet.model;
 
-import br.com.elo7.explorer.advice.excepion.CollisionExpection;
-import br.com.elo7.explorer.advice.excepion.OrbitalLimitExceededException;
-import br.com.elo7.explorer.probe.enums.PointTo;
 import br.com.elo7.explorer.probe.model.Position;
 import br.com.elo7.explorer.probe.model.Probe;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -10,7 +7,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Entity
 @Getter
@@ -42,6 +38,6 @@ public class Planet {
     }
 
     public Boolean isRequiredPositionExceedingOrbitalLimit(Position position){
-        return position.getCoordinateX() > surface.getAxleX() || position.getCoordinateY() > surface.getAxleY();
+        return position.getCoordinateX() > surface.getAxisX() || position.getCoordinateY() > surface.getAxisY();
     }
 }
