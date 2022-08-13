@@ -1,13 +1,16 @@
 package br.com.elo7.explorer.probe.service;
 
 import br.com.elo7.explorer.advice.excepion.CollisionExpection;
+import br.com.elo7.explorer.advice.excepion.NotAllowedActionException;
 import br.com.elo7.explorer.advice.excepion.OrbitalLimitExceededException;
 import br.com.elo7.explorer.advice.excepion.UnknownPlanetException;
 import br.com.elo7.explorer.planet.dto.PlanetResponseDTO;
 import br.com.elo7.explorer.planet.repository.PlanetRepository;
+import br.com.elo7.explorer.probe.dto.ActionDTO;
 import br.com.elo7.explorer.probe.dto.PositionDTO;
 import br.com.elo7.explorer.probe.dto.ProbeRequestDTO;
 import br.com.elo7.explorer.probe.dto.ProbeResponseDTO;
+import br.com.elo7.explorer.probe.enums.AllowedActions;
 import br.com.elo7.explorer.probe.model.Position;
 import br.com.elo7.explorer.probe.model.Probe;
 import br.com.elo7.explorer.probe.repository.ProbeRepository;
@@ -16,9 +19,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -69,5 +75,20 @@ public class ProbeService {
         targetPlanet.getExploringProbes().add(probe);
 
         probeRepository.saveAndFlush(probe);
+    }
+
+    public void moveProbe(ActionDTO actionDTO, Long probeId){
+
+        var probe = probeRepository.findById(probeId)
+                .orElseThrow(() -> new NotFoundException("Sonda não encontrada!"));
+
+        var actions = actionDTO.getAction().toUpperCase().toCharArray();
+
+        for (Character action: actions){
+            if(Stream.of(AllowedActions.values()).noneMatch(allowedAction -> allowedAction.getValue().equals(action))){
+                throw new NotAllowedActionException("Ação desconhecida!");
+            }
+            probe.execute(action);
+        }
     }
 }
