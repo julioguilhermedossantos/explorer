@@ -1,5 +1,6 @@
 package br.com.elo7.explorer.planet.service;
 
+import br.com.elo7.explorer.advice.excepion.UnknownPlanetException;
 import br.com.elo7.explorer.planet.dto.PlanetRequestDTO;
 import br.com.elo7.explorer.planet.dto.PlanetResponseDTO;
 import br.com.elo7.explorer.planet.model.Planet;
@@ -41,5 +42,11 @@ public class PlanetService {
     public void deletePlanet(Long id) {
         log.info("[PLANET SERVICE] deletando planeta");
         planetRepository.deleteById(id);
+    }
+
+    public PlanetResponseDTO find(Long id) {
+        var planet = planetRepository.findById(id)
+                .orElseThrow(() -> new UnknownPlanetException("Planeta não encontrado"));
+        return objectMapper.convertValue(planet, PlanetResponseDTO.class);
     }
 }

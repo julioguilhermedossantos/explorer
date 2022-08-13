@@ -33,8 +33,14 @@ public class PlanetController {
 
     @GetMapping
     public ResponseEntity<List<PlanetResponseDTO>> getAllPlanets(){
-        log.info("[CONTROLLER]");
+        log.info("[CONTROLLER] : Listando planetas");
        return ResponseEntity.ok().body(planetService.listPlanets());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PlanetResponseDTO> getPlanet(@PathVariable Long id){
+        log.info("[CONTROLLER] : Buscando planeta por id {}", id);
+        return ResponseEntity.ok().body(planetService.find(id));
     }
 
     @DeleteMapping("/{id}")
