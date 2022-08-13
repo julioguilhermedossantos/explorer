@@ -3,7 +3,7 @@ package br.com.elo7.explorer.advice;
 import br.com.elo7.explorer.advice.excepion.CollisionExpection;
 import br.com.elo7.explorer.advice.excepion.NotAllowedActionException;
 import br.com.elo7.explorer.advice.excepion.OrbitalLimitExceededException;
-import br.com.elo7.explorer.advice.excepion.ProbeNotFound;
+import br.com.elo7.explorer.advice.excepion.ProbeNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +36,8 @@ public class ExceptionsHandler {
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
-    @ExceptionHandler(value = {ProbeNotFound.class})
-    public ResponseEntity<ErrorMessage> handleProbeNotFound(ProbeNotFound ex) {
+    @ExceptionHandler(value = {ProbeNotFoundException.class})
+    public ResponseEntity<ErrorMessage> handleProbeNotFound(ProbeNotFoundException ex) {
         log.error("[ExceptionsHandler] ProbeNotFound");
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
