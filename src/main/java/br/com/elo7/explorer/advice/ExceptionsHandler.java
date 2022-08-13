@@ -2,6 +2,7 @@ package br.com.elo7.explorer.advice;
 
 import br.com.elo7.explorer.advice.excepion.CollisionExpection;
 import br.com.elo7.explorer.advice.excepion.OrbitalLimitExceededException;
+import br.com.elo7.explorer.advice.excepion.ProbeNotFound;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.validation.ConstraintViolationException;
-import javax.validation.UnexpectedTypeException;
 import java.util.HashMap;
 
 @Slf4j
@@ -33,6 +32,11 @@ public class ExceptionsHandler {
     @ExceptionHandler(value = {CollisionExpection.class})
     public ResponseEntity<ErrorMessage> handleCollision(CollisionExpection ex) {
         log.error("[ExceptionsHandler] CollisionExpection");
+        return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
+    }
+    @ExceptionHandler(value = {ProbeNotFound.class})
+    public ResponseEntity<ErrorMessage> handleProbeNotFound(ProbeNotFound ex) {
+        log.error("[ExceptionsHandler] ProbeNotFound");
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
