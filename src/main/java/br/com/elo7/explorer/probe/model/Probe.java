@@ -2,11 +2,13 @@ package br.com.elo7.explorer.probe.model;
 
 import br.com.elo7.explorer.planet.model.Planet;
 import br.com.elo7.explorer.probe.enums.PointTo;
+import br.com.elo7.explorer.probe.enums.TurnActions;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.stream.Stream;
+import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Getter
@@ -34,22 +36,33 @@ public class Probe {
     @ManyToOne
     private Planet currentExlporingPlanet;
 
-    public void execute(Character action) {
-        var turnActions = new char[]{'L', 'R'};
-
-        if (Stream.of(turnActions).anyMatch(action::equals)) {
-            pointingTo.changeOrientation(action);
+    public void execute(char action) {
+        if (isTurnAction(action)) {
+            turn(action);
         }else {
             move();
         }
     }
 
     private void move() {
-        var verticalMove = new PointTo[]{PointTo.NORTH, PointTo.SOUTH};
-        if (Stream.of(verticalMove).anyMatch(pointTo -> pointTo == pointingTo)) {
+        if (isVerticalMove()) {
             position.verticalMove(pointingTo.getStep());
         } else {
             position.horizontalMove(pointingTo.getStep());
         }
+    }
+
+    private boolean isVerticalMove(){
+        return List.of(PointTo.NORTH, PointTo.SOUTH).contains(pointingTo);
+    }
+
+    private boolean isTurnAction(char action){
+        return Arrays.stream(TurnActions.values())
+                .map(TurnActions::getValue)
+                .anyMatch(turnActions -> action == turnActions);
+    }
+
+    private void turn(char action){
+        setPointingTo(pointingTo.changeOrientation(action));
     }
 }

@@ -16,12 +16,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.webjars.NotFoundException;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -47,7 +45,6 @@ public class ProbeService {
                 .collect(Collectors.toList());
     }
 
-    @SneakyThrows
     public void create(ProbeRequestDTO probeRequestDTO) {
         log.info(String.format("[PROBE SERVICE] Criando sonda %s", probeRequestDTO.getName()));
         var targetPlanet = planetRepository.findById(probeRequestDTO.getPlanetId())
@@ -81,11 +78,19 @@ public class ProbeService {
 
         var actions = actionDTO.getAction().toUpperCase().toCharArray();
 
-        for (Character action: actions){
-            if(Stream.of(AllowedActions.values()).noneMatch(allowedAction -> allowedAction.getValue().equals(action))){
+        for (char action: actions){
+
+            if(this.isNotAllowedAction(action)){
                 throw new NotAllowedActionException("Ação desconhecida!");
             }
             probe.execute(action);
+            log.info("pointTo: {}, position x({}) y({})", probe.getPointingTo(), probe.getPosition().getCoordinateX(), probe.getPosition().getCoordinateY());
         }
+        log.info("[final] pointTo: {}, position x({}) y({})", probe.getPointingTo(), probe.getPosition().getCoordinateX(), probe.getPosition().getCoordinateY());
+    }
+
+    private boolean isNotAllowedAction(char action){
+        return Arrays.stream(AllowedActions.values())
+                .noneMatch(allowedAction -> allowedAction.getValue() == action);
     }
 }
