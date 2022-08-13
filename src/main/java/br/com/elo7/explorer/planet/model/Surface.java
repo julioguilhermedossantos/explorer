@@ -17,6 +17,6 @@ public class Surface {
     @Column(name = "axis_x")
     private Integer axisX;
 
-    @Column(name = "axis_Y")
+    @Column(name = "axis_y")
     private Integer axisY;
 }

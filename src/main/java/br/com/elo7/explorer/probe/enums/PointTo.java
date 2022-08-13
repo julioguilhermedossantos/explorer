@@ -8,32 +8,32 @@ import lombok.Getter;
 public enum PointTo {
     NORTH(1) {
         @Override
-        public PointTo changeOrientation(Character direction) {
-            return direction.equals(AllowedActions.L.getValue()) ? WEST : EAST;
+        public PointTo changeOrientation(char direction) {
+            return direction == AllowedActions.L.getValue() ? WEST : EAST;
         }
 
     },
     SOUTH(-1) {
         @Override
-        public PointTo changeOrientation(Character direction) {
-            return direction.equals(AllowedActions.L.getValue()) ? EAST : WEST;
+        public PointTo changeOrientation(char direction) {
+            return direction == AllowedActions.L.getValue() ? EAST : WEST;
         }
     },
     WEST(-1) {
         @Override
-        public PointTo changeOrientation(Character direction) {
-            return direction.equals(AllowedActions.L.getValue()) ? SOUTH : NORTH;
+        public PointTo changeOrientation(char direction) {
+            return direction == AllowedActions.L.getValue() ? SOUTH : NORTH;
         }
     },
     EAST(1) {
         @Override
-        public PointTo changeOrientation(Character direction) {
-            return direction.equals(AllowedActions.L.getValue()) ? NORTH : SOUTH;
+        public PointTo changeOrientation(char direction) {
+            return direction == AllowedActions.L.getValue() ? NORTH : SOUTH;
         }
     };
 
-    private Integer step;
+    private final Integer step;
 
-    public abstract PointTo changeOrientation(Character direction);
+    public abstract PointTo changeOrientation(char direction);
 
 }

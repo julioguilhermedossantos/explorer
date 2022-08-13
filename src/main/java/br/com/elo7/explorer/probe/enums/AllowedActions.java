@@ -6,9 +6,9 @@ import lombok.Getter;
 public enum AllowedActions {
     L('L'), R('R'), M('M');
 
-    private final Character value;
+    private final char value;
 
-    AllowedActions(Character value) {
+    AllowedActions(char value) {
         this.value = value;
     }
 }
