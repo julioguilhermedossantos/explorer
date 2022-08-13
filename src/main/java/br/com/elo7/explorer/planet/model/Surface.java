@@ -13,6 +13,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Surface {
 
-    private Integer axleX;
-    private Integer axleY;
+    private Integer axisX;
+    private Integer axisY;
 }
