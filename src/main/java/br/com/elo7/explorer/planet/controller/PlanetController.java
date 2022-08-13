@@ -26,8 +26,8 @@ public class PlanetController {
         log.info(
                 "[CONTROLLER] : Criando {} com tamanhos X({}) e Y({})",
                 planetRequestDTO.getName(),
-                planetRequestDTO.getSurface().getAxleX(),
-                planetRequestDTO.getSurface().getAxleY());
+                planetRequestDTO.getSurface().getAxisX(),
+                planetRequestDTO.getSurface().getAxisY());
         planetService.createPlanet(planetRequestDTO);
     }
 

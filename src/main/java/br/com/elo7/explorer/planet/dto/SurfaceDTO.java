@@ -11,7 +11,7 @@ import javax.validation.constraints.Positive;
 public class SurfaceDTO {
 
     @Positive
-    private Integer axleX;
+    private Integer axisX;
     @Positive
-    private Integer axleY;
+    private Integer axisY;
 }
