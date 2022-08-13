@@ -24,7 +24,7 @@ public class PlanetController {
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@Valid @RequestBody PlanetRequestDTO planetRequestDTO){
         log.info(
-                "[CONTROLLER] : Criando {} com tamanhos X({}) e Y({})",
+                "[PlanetController] : Criando {} com tamanhos X({}) e Y({})",
                 planetRequestDTO.getName(),
                 planetRequestDTO.getSurface().getAxisX(),
                 planetRequestDTO.getSurface().getAxisY());
@@ -33,20 +33,20 @@ public class PlanetController {
 
     @GetMapping
     public ResponseEntity<List<PlanetResponseDTO>> getAllPlanets(){
-        log.info("[CONTROLLER] : Listando planetas");
+        log.info("[PlanetController] : Listando planetas");
        return ResponseEntity.ok().body(planetService.listPlanets());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PlanetResponseDTO> getPlanet(@PathVariable Long id){
-        log.info("[CONTROLLER] : Buscando planeta por id {}", id);
+        log.info("[PlanetController] : Buscando planeta por id {}", id);
         return ResponseEntity.ok().body(planetService.find(id));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id){
-        log.info("[CONTROLLER] deletando planeta com id: {}", id);
+        log.info("[PlanetController] : deletando planeta com id: {}", id);
         planetService.deletePlanet(id);
     }
 }
