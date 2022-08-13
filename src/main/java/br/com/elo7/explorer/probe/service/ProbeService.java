@@ -1,9 +1,6 @@
 package br.com.elo7.explorer.probe.service;
 
-import br.com.elo7.explorer.advice.excepion.CollisionExpection;
-import br.com.elo7.explorer.advice.excepion.NotAllowedActionException;
-import br.com.elo7.explorer.advice.excepion.OrbitalLimitExceededException;
-import br.com.elo7.explorer.advice.excepion.UnknownPlanetException;
+import br.com.elo7.explorer.advice.excepion.*;
 import br.com.elo7.explorer.planet.dto.PlanetResponseDTO;
 import br.com.elo7.explorer.planet.repository.PlanetRepository;
 import br.com.elo7.explorer.probe.dto.ActionDTO;
@@ -80,7 +77,7 @@ public class ProbeService {
     public void moveProbe(ActionDTO actionDTO, Long probeId){
 
         var probe = probeRepository.findById(probeId)
-                .orElseThrow(() -> new NotFoundException("Sonda não encontrada!"));
+                .orElseThrow(() -> new ProbeNotFound("Sonda não encontrada!"));
 
         var actions = actionDTO.getAction().toUpperCase().toCharArray();
 
