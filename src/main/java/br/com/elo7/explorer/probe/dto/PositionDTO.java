@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 @Getter
 @Setter
@@ -13,9 +13,9 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class PositionDTO {
 
-    @Positive
+    @PositiveOrZero
     private Integer coordinateX;
-    @Positive
+    @PositiveOrZero
     private Integer coordinateY;
 
 }
