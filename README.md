@@ -11,11 +11,14 @@ Postgres
 H2
 
 ## Rodar
-Criar um .env e adicionar as configurações encontradas no arquivo .env.example na raíz do projeto
+Criar um envfile e adicionar as configurações encontradas no arquivo .env.example na raíz do projeto
 
 Para configurar o apontamento das variáveis do .env nas IDEs JetBrains
 
 ![img.png](img.png)
 
 ![img_1.png](img_1.png)
+
+Rodar o serviço db
+
 

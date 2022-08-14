@@ -1,5 +1,7 @@
 package br.com.elo7.explorer.planet.model;
 
+import br.com.elo7.explorer.advice.excepion.CollisionExpection;
+import br.com.elo7.explorer.advice.excepion.OrbitalLimitExceededException;
 import br.com.elo7.explorer.probe.model.Position;
 import br.com.elo7.explorer.probe.model.Probe;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -28,17 +30,25 @@ public class Planet {
 
     @JsonManagedReference
     @JoinColumn(name = "planet_id")
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     private Set<Probe> exploringProbes;
 
-    public Boolean hasProbeLandedAt(Position position) {
+    public Boolean hasOtherProbeLandedAt(Position position) {
         return exploringProbes.stream()
-                .parallel()
-                .anyMatch(probe -> probe.getPosition() == position);
+                .filter(probe -> probe.getPosition().equals(position)).count() > 1;
     }
 
     public Boolean isRequiredPositionExceedingOrbitalLimit(Position position) {
         return position.getCoordinateX() > surface.getAxisX() || position.getCoordinateY() > surface.getAxisY();
     }
 
+    public void validate(Position position){
+
+        if (isRequiredPositionExceedingOrbitalLimit(position))
+            throw new OrbitalLimitExceededException("Fora do limite orbital!");
+
+        if (hasOtherProbeLandedAt(position))
+            throw new CollisionExpection("Existe uma sonda pousada nesta posição!");
+
+    }
 }

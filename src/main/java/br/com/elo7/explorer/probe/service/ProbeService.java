@@ -38,34 +38,34 @@ public class ProbeService {
                                 .id(probe.getId())
                                 .name(probe.getName())
                                 .position(objectMapper.convertValue(probe.getPosition(), PositionDTO.class))
-                                .pointTo(probe.getPointingTo())
+                                .pointingTo(probe.getPointingTo())
                                 .planet(objectMapper.convertValue(probe.getCurrentExlporingPlanet(), PlanetResponseDTO.class))
                                 .build())
                 .collect(Collectors.toList());
     }
 
     public void create(ProbeRequestDTO probeRequestDTO) {
+
         log.info(String.format("[PROBE SERVICE] Criando sonda %s", probeRequestDTO.getName()));
+
         var targetPlanet = planetRepository.findById(probeRequestDTO.getPlanetId())
                 .orElseThrow(() -> new UnknownPlanetException("Planeta não registrado!"));
 
-        var requiredLandingPosition = objectMapper
-                .convertValue(probeRequestDTO.getPosition(), Position.class);
-
-        if (targetPlanet.isRequiredPositionExceedingOrbitalLimit(requiredLandingPosition))
-            throw new OrbitalLimitExceededException("Fora do limite orbital!");
-
-        if (targetPlanet.hasProbeLandedAt(requiredLandingPosition))
-            throw new CollisionExpection("Existe uma sonda pousada nesta posição!");
+        var requiredLandingPosition = objectMapper.convertValue(
+                probeRequestDTO.getPosition(),
+                Position.class
+        );
 
         var probe = Probe.builder()
                 .name(probeRequestDTO.getName())
-                .pointingTo(probeRequestDTO.getPointTo())
+                .pointingTo(probeRequestDTO.getPointingTo())
                 .currentExlporingPlanet(targetPlanet)
                 .position(objectMapper.convertValue(probeRequestDTO.getPosition(), Position.class))
                 .build();
 
         targetPlanet.getExploringProbes().add(probe);
+
+        targetPlanet.validate(requiredLandingPosition);
 
         probeRepository.saveAndFlush(probe);
     }
@@ -82,10 +82,14 @@ public class ProbeService {
             if (this.isNotAllowedAction(action)) {
                 throw new NotAllowedActionException("Ação desconhecida!");
             }
+
             probe.execute(action);
-            log.info("pointTo: {}, position x({}) y({})", probe.getPointingTo(), probe.getPosition().getCoordinateX(), probe.getPosition().getCoordinateY());
+
         }
-        log.info("[final] pointTo: {}, position x({}) y({})", probe.getPointingTo(), probe.getPosition().getCoordinateX(), probe.getPosition().getCoordinateY());
+
+        probe.getCurrentExlporingPlanet().validate(probe.getPosition());
+
+        probeRepository.saveAndFlush(probe);
     }
 
     private boolean isNotAllowedAction(char action) {
