@@ -24,7 +24,7 @@ public class ProbeController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@Valid @RequestBody ProbeRequestDTO ProbeRequestDTO) {
-        log.info("[PlanetController] : Buscando planeta por id {}");
+        log.info("[PlanetController] : Criando sonda");
         probeService.create(ProbeRequestDTO);
     }
 
