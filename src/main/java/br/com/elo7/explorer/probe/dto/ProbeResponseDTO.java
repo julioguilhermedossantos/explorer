@@ -19,7 +19,7 @@ public class ProbeResponseDTO {
 
     private PositionDTO position;
 
-    private PointTo pointTo;
+    private PointTo pointingTo;
 
     private PlanetResponseDTO planet;
 
