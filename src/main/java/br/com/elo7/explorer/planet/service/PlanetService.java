@@ -25,29 +25,44 @@ public class PlanetService {
 
     @SneakyThrows
     public void createPlanet(PlanetRequestDTO planetRequestDTO) {
-        log.info("[PLANET SERVICE] Criando planeta");
+
+        log.info("[PLANET SERVICE] : Criando planeta");
+
         planetRepository.saveAndFlush(objectMapper.convertValue(planetRequestDTO, Planet.class));
+
     }
 
     public List<PlanetResponseDTO> listPlanets() {
-        log.info("[PLANET SERVICE] Listando planetas");
+
+        log.info("[PLANET SERVICE] : Listando planetas");
+
         List<PlanetRequestDTO> list = new ArrayList<>();
+
         return planetRepository.findAll()
                 .stream()
                 .map(planet -> objectMapper.convertValue(planet, PlanetResponseDTO.class))
                 .collect(Collectors.toList());
+
     }
 
     @SneakyThrows
     public void deletePlanet(Long id) {
-        log.info("[PLANET SERVICE] deletando planeta");
+
+        log.info("[PLANET SERVICE] : Deletando planeta por id {}", id);
+
         planetRepository.deleteById(id);
+
     }
 
     public PlanetResponseDTO find(Long id) {
+
+        log.info("[PLANET SERVICE] : Buscando planet por id {}", id);
+
         var planet = planetRepository.findById(id)
                 .orElseThrow(() -> new UnknownPlanetException("Planeta não encontrado"));
+
         return objectMapper.convertValue(planet, PlanetResponseDTO.class);
+
     }
 
 }

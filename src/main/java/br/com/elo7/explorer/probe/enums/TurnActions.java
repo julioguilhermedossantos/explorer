@@ -6,8 +6,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum TurnActions {
+
     L('L'), R('R');
 
     private final char value;
-    
+
 }

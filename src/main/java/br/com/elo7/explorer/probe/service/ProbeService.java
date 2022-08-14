@@ -30,7 +30,7 @@ public class ProbeService {
     private final ObjectMapper objectMapper;
 
     public List<ProbeResponseDTO> getAll() {
-        log.info("[PROBE SERVICE] Listando sondas");
+        log.info("[PROBE SERVICE] : Listando sondas");
         return probeRepository.findAll()
                 .stream()
                 .map(probe ->
@@ -42,11 +42,12 @@ public class ProbeService {
                                 .planet(objectMapper.convertValue(probe.getCurrentExlporingPlanet(), PlanetResponseDTO.class))
                                 .build())
                 .collect(Collectors.toList());
+
     }
 
     public void create(ProbeRequestDTO probeRequestDTO) {
 
-        log.info(String.format("[PROBE SERVICE] Criando sonda %s", probeRequestDTO.getName()));
+        log.info("[PROBE SERVICE] : Criando sonda {}", probeRequestDTO.getName());
 
         var targetPlanet = planetRepository.findById(probeRequestDTO.getPlanetId())
                 .orElseThrow(() -> new UnknownPlanetException("Planeta não registrado!"));
@@ -72,6 +73,8 @@ public class ProbeService {
 
     public void moveProbe(ActionDTO actionDTO, Long probeId) {
 
+        log.info("[PROBE SERVICE] : Movendo sonda de acordo com as instruções {}", actionDTO.getAction());
+
         var probe = probeRepository.findById(probeId)
                 .orElseThrow(() -> new ProbeNotFoundException("Sonda não encontrada!"));
 
@@ -93,13 +96,20 @@ public class ProbeService {
     }
 
     private boolean isNotAllowedAction(char action) {
+
         return Arrays.stream(AllowedActions.values())
                 .noneMatch(allowedAction -> allowedAction.getValue() == action);
+
     }
 
     public ProbeResponseDTO find(Long id) {
+
+        log.info("[PROBE SERVICE] : Buscando sonda por id {}", id);
+
         var probe = probeRepository.findById(id)
                 .orElseThrow(() -> new ProbeNotFoundException("Sonda não encontrada!"));
+
         return objectMapper.convertValue(probe, ProbeResponseDTO.class);
+
     }
 }

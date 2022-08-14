@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum PointTo {
+    
     NORTH(1) {
         @Override
         public PointTo changeOrientation(char direction) {
