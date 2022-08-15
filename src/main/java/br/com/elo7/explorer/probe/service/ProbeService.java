@@ -40,7 +40,7 @@ public class ProbeService {
                                 .id(probe.getId())
                                 .name(probe.getName())
                                 .position(objectMapper.convertValue(probe.getPosition(), PositionDTO.class))
-                                .pointingTo(probe.getPointingTo())
+                                .pointTo(probe.getPointTo())
                                 .planet(objectMapper.convertValue(probe.getPlanet(), PlanetResponseDTO.class))
                                 .build())
                 .collect(Collectors.toList());
@@ -61,7 +61,7 @@ public class ProbeService {
 
         var probe = Probe.builder()
                 .name(probeRequestDTO.getName())
-                .pointingTo(probeRequestDTO.getPointingTo())
+                .pointTo(probeRequestDTO.getPointTo())
                 .planet(targetPlanet)
                 .position(objectMapper.convertValue(probeRequestDTO.getPosition(), Position.class))
                 .build();
