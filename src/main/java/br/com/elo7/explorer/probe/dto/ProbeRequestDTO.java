@@ -24,7 +24,7 @@ public class ProbeRequestDTO {
     @Valid
     private PositionDTO position;
 
-    private PointTo pointingTo;
+    private PointTo pointTo;
 
     private Long planetId;
 

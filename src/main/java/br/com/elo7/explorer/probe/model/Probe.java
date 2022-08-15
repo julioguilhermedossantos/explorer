@@ -34,7 +34,7 @@ public class Probe {
     private Position position;
 
     @Enumerated(EnumType.STRING)
-    private PointTo pointingTo;
+    private PointTo pointTo;
 
     @JsonBackReference
     @JoinColumn(name = "planet_id")
@@ -51,14 +51,14 @@ public class Probe {
 
     private void move() {
         if (isVerticalMove()) {
-            position.verticalMove(pointingTo.getStep());
+            position.verticalMove(pointTo.getStep());
         } else {
-            position.horizontalMove(pointingTo.getStep());
+            position.horizontalMove(pointTo.getStep());
         }
     }
 
     private boolean isVerticalMove() {
-        return List.of(PointTo.NORTH, PointTo.SOUTH).contains(pointingTo);
+        return List.of(PointTo.NORTH, PointTo.SOUTH).contains(pointTo);
     }
 
     private boolean isTurnAction(char action) {
@@ -68,7 +68,7 @@ public class Probe {
     }
 
     private void turn(char action) {
-        setPointingTo(pointingTo.changeOrientation(action));
+        setPointTo(pointTo.changeOrientation(action));
     }
 
 }
