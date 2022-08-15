@@ -38,7 +38,7 @@ public class Probe {
 
     @JsonBackReference
     @JoinColumn(name = "planet_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Planet planet;
 
     public void execute(char action) {
