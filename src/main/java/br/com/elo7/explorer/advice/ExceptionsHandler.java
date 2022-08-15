@@ -69,4 +69,11 @@ public class ExceptionsHandler {
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage));
     }
 
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    public ResponseEntity<ErrorMessage> handleIllegalArgument(IllegalArgumentException ex) {
+        var exceptionMessage = ex.getMessage();
+        log.error("[ExceptionsHandler] IllegalArgumentException: {}", exceptionMessage);
+        return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage));
+    }
+
 }
