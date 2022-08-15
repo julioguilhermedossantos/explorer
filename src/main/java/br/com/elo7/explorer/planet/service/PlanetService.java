@@ -1,18 +1,14 @@
 package br.com.elo7.explorer.planet.service;
 
 import br.com.elo7.explorer.advice.excepion.UnknownPlanetException;
-import br.com.elo7.explorer.planet.dto.PlanetRequestDTO;
-import br.com.elo7.explorer.planet.dto.PlanetResponseDTO;
 import br.com.elo7.explorer.planet.model.Planet;
 import br.com.elo7.explorer.planet.repository.PlanetRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -20,36 +16,30 @@ import java.util.stream.Collectors;
 public class PlanetService {
 
     private final PlanetRepository planetRepository;
-    private final ObjectMapper objectMapper;
 
     @SneakyThrows
-    public void createPlanet(PlanetRequestDTO planetRequestDTO) {
+    public void create(Planet planet) {
 
         log.debug("[PLANET SERVICE] : Criando planeta");
 
-        planetRepository.saveAndFlush(objectMapper.convertValue(planetRequestDTO, Planet.class));
+        planetRepository.saveAndFlush(planet);
 
     }
 
-    public List<PlanetResponseDTO> listPlanets() {
+    public List<Planet> list() {
 
         log.debug("[PLANET SERVICE] : Listando planetas");
 
-        return planetRepository.findAll()
-                .stream()
-                .map(planet -> objectMapper.convertValue(planet, PlanetResponseDTO.class))
-                .collect(Collectors.toList());
+        return planetRepository.findAll();
 
     }
 
-    public PlanetResponseDTO find(Long id) {
+    public Planet findById(Long id) {
 
         log.debug("[PLANET SERVICE] : Buscando planet por id {}", id);
 
-        var planet = planetRepository.findById(id)
+        return planetRepository.findById(id)
                 .orElseThrow(() -> new UnknownPlanetException("Planeta não encontrado"));
-
-        return objectMapper.convertValue(planet, PlanetResponseDTO.class);
 
     }
 
