@@ -54,4 +54,30 @@ class PlanetTest {
 
     }
 
+    @Test
+    void isRequiredPositionExceedingOrbitalLimit() {
+
+        var position = FileUtil.fromJsonFile("position-x5-y6.json", Position.class);
+
+        var surface = FileUtil.fromJsonFile("surface-x5-y5.json", Surface.class);
+
+        var mars = FileUtil.fromJsonFile("planet-mars-null-surface-null-probes.json", Planet.class);
+
+        var spaceX = FileUtil.fromJsonFile(
+                "probe-space-x-null-position-null-north.json",
+                Probe.class
+        );
+
+        mars.setSurface(surface);
+        mars.getProbes().add(spaceX);
+
+        spaceX.setPosition(position);
+        spaceX.setPlanet(mars);
+
+        var result = mars.isRequiredPositionExceedingOrbitalLimit(position);
+
+        assertTrue(result);
+
+    }
+
 }
