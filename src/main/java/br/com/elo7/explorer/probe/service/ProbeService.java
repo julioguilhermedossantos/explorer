@@ -30,7 +30,9 @@ public class ProbeService {
     private final ObjectMapper objectMapper;
 
     public List<ProbeResponseDTO> getAll() {
+
         log.info("[PROBE SERVICE] : Listando sondas");
+
         return probeRepository.findAll()
                 .stream()
                 .map(probe ->
@@ -39,7 +41,7 @@ public class ProbeService {
                                 .name(probe.getName())
                                 .position(objectMapper.convertValue(probe.getPosition(), PositionDTO.class))
                                 .pointingTo(probe.getPointingTo())
-                                .planet(objectMapper.convertValue(probe.getCurrentExlporingPlanet(), PlanetResponseDTO.class))
+                                .planet(objectMapper.convertValue(probe.getPlanet(), PlanetResponseDTO.class))
                                 .build())
                 .collect(Collectors.toList());
 
@@ -60,11 +62,11 @@ public class ProbeService {
         var probe = Probe.builder()
                 .name(probeRequestDTO.getName())
                 .pointingTo(probeRequestDTO.getPointingTo())
-                .currentExlporingPlanet(targetPlanet)
+                .planet(targetPlanet)
                 .position(objectMapper.convertValue(probeRequestDTO.getPosition(), Position.class))
                 .build();
 
-        targetPlanet.getExploringProbes().add(probe);
+        targetPlanet.getProbes().add(probe);
 
         targetPlanet.validate(requiredLandingPosition);
 
@@ -90,7 +92,7 @@ public class ProbeService {
 
         }
 
-        probe.getCurrentExlporingPlanet().validate(probe.getPosition());
+        probe.getPlanet().validate(probe.getPosition());
 
         probeRepository.saveAndFlush(probe);
     }

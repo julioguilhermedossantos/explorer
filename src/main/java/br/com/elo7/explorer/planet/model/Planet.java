@@ -31,10 +31,10 @@ public class Planet {
     @JsonManagedReference
     @JoinColumn(name = "planet_id")
     @OneToMany(orphanRemoval = true)
-    private Set<Probe> exploringProbes;
+    private Set<Probe> probes;
 
     public Boolean hasOtherProbeLandedAt(Position position) {
-        return exploringProbes.stream()
+        return probes.stream()
                 .filter(probe -> probe.getPosition().equals(position)).count() > 1;
     }
 

@@ -4,6 +4,8 @@ import br.com.elo7.explorer.planet.model.Planet;
 import br.com.elo7.explorer.probe.enums.PointTo;
 import br.com.elo7.explorer.probe.enums.TurnActions;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,6 +18,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Probe {
 
     @Id
@@ -33,8 +38,8 @@ public class Probe {
 
     @JsonBackReference
     @JoinColumn(name = "planet_id")
-    @ManyToOne
-    private Planet currentExlporingPlanet;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Planet planet;
 
     public void execute(char action) {
         if (isTurnAction(action)) {

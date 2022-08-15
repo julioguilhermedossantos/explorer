@@ -19,6 +19,6 @@ public class PlanetResponseDTO {
 
     private SurfaceDTO surface;
 
-    private Set<ProbeResponseDTO> exploringProbes;
+    private Set<ProbeResponseDTO> probes;
 
 }
