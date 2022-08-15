@@ -1,19 +1,23 @@
 package br.com.elo7.explorer.planet.model;
 
+import br.com.elo7.explorer.advice.excepion.CollisionExpection;
+import br.com.elo7.explorer.advice.excepion.OrbitalLimitExceededException;
 import br.com.elo7.explorer.probe.model.Position;
 import br.com.elo7.explorer.probe.model.Probe;
 import br.com.elo7.explorer.util.FileUtil;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class PlanetTest {
 
     @Test
-    void hasOtherProbeLandedAt() {
+    @DisplayName("Should return true when has other probe landed at same position")
+    void validate_collisionExpection() {
 
         var position = FileUtil.fromJsonFile("position-x3-y3.json", Position.class);
 
@@ -41,14 +45,13 @@ class PlanetTest {
         spaceX.setPosition(position);
         spaceX.setPlanet(mars);
 
-        var result = mars.hasOtherProbeLandedAt(position);
-
-        assertTrue(result);
+        assertThrows(CollisionExpection.class, () -> mars.validate(position));
 
     }
 
     @Test
-    void isRequiredPositionExceedingOrbitalLimit() {
+    @DisplayName("Should throw OrbitalLimitExceededException when probe try to land out of orbital limit")
+    void validate_orbitalLimitExceededException() {
 
         var position = FileUtil.fromJsonFile("position-x5-y6.json", Position.class);
 
@@ -67,10 +70,7 @@ class PlanetTest {
         spaceX.setPosition(position);
         spaceX.setPlanet(mars);
 
-        var result = mars.isRequiredPositionExceedingOrbitalLimit(position);
-
-        assertTrue(result);
+        assertThrows(OrbitalLimitExceededException.class, () -> mars.validate(position));
 
     }
-
 }
