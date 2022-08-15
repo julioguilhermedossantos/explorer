@@ -45,15 +45,6 @@ public class PlanetService {
 
     }
 
-    @SneakyThrows
-    public void deletePlanet(Long id) {
-
-        log.info("[PLANET SERVICE] : Deletando planeta por id {}", id);
-
-        planetRepository.deleteById(id);
-
-    }
-
     public PlanetResponseDTO find(Long id) {
 
         log.info("[PLANET SERVICE] : Buscando planet por id {}", id);
