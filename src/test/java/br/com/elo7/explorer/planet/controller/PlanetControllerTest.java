@@ -1,5 +1,6 @@
 package br.com.elo7.explorer.planet.controller;
 
+import br.com.elo7.explorer.advice.excepion.UnknownPlanetException;
 import br.com.elo7.explorer.planet.dto.PlanetRequestDTO;
 import br.com.elo7.explorer.planet.model.Planet;
 import br.com.elo7.explorer.util.TestUtil;
@@ -97,6 +98,22 @@ class PlanetControllerTest {
         var planets = TestUtil.fromJsonString(result.getResponse().getContentAsString(), Planet.class);
 
         assertEquals(planetId, planets.getId());
+
+    }
+
+    @Test
+    @DisplayName("Should throw UnknownPlanetException")
+    void getPlanet2() throws Exception {
+
+        var planetId = 99L;
+
+        MockHttpServletRequestBuilder requestBuilder = get(String.format("/planets/%d", planetId))
+                .contentType(APPLICATION_JSON)
+                .characterEncoding("utf-8");
+
+       mockMvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof UnknownPlanetException));
 
     }
 }
