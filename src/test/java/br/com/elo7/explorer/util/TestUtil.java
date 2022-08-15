@@ -34,4 +34,13 @@ public final class TestUtil {
             throw new RuntimeException(e);
         }
     }
+
+    public static <T> String StringFromJsonFile(String jsonFile,  Class<T> clazz){
+        try {
+            var obj = fromJsonFile(jsonFile, clazz);
+            return  new ObjectMapper().writeValueAsString(obj);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
