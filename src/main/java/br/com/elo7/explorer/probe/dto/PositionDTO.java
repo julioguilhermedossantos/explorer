@@ -15,6 +15,7 @@ public class PositionDTO {
 
     @PositiveOrZero
     private Integer coordinateX;
+
     @PositiveOrZero
     private Integer coordinateY;
 
