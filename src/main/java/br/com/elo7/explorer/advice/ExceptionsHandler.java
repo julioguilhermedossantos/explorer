@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
@@ -34,11 +35,12 @@ public class ExceptionsHandler {
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage));
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = {ProbeNotFoundException.class})
-    public ResponseEntity<ErrorMessage> handleProbeNotFound(ProbeNotFoundException ex) {
+    public ErrorMessage handleProbeNotFound(ProbeNotFoundException ex) {
         var exceptionMessage = ex.getMessage();
         log.error("[ExceptionsHandler] ProbeNotFoundException: {}", exceptionMessage);
-        return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
+        return new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     @ExceptionHandler(value = {OrbitalLimitExceededException.class})
@@ -62,11 +64,12 @@ public class ExceptionsHandler {
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage));
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = {UnknownPlanetException.class})
-    public ResponseEntity<ErrorMessage> handleUnknownPlanet(UnknownPlanetException ex) {
+    public ErrorMessage handleUnknownPlanet(UnknownPlanetException ex) {
         var exceptionMessage = ex.getMessage();
         log.error("[ExceptionsHandler] UnknownPlanetException: {}", exceptionMessage);
-        return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage));
+        return new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage);
     }
 
     @ExceptionHandler(value = {IllegalArgumentException.class})
