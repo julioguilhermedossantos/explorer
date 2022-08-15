@@ -12,13 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 class PlanetTest {
 
-    private final Integer COORDINATE_X = 3;
-
-    private final Integer COORDINATE_Y = 3;
-
-
-    private String MARS = "MARS";
-
     @Test
     void hasOtherProbeLandedAt() {
 
