@@ -18,8 +18,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -31,6 +30,7 @@ class PlanetControllerTest {
     private MockMvc mockMvc;
 
     @Test
+    @DisplayName("Should create planet successfully")
     void create() throws Exception {
 
         MockHttpServletRequestBuilder requestBuilder = post("/planets")
@@ -44,8 +44,8 @@ class PlanetControllerTest {
     }
 
     @Test
-    @Sql("/sql/get-all-planets.sql")
-    @DisplayName("Should list planets correctly")
+    @Sql("/sql/planet-x5-y5.sql")
+    @DisplayName("Should list planets successfully")
     void getAllPlanets() throws Exception {
 
         MockHttpServletRequestBuilder requestBuilder = get("/planets")
@@ -81,8 +81,8 @@ class PlanetControllerTest {
     }
 
     @Test
-    @Sql("/sql/get-all-planets.sql")
-    @DisplayName("Should return planet by id")
+    @Sql("/sql/planet-x5-y5.sql")
+    @DisplayName("Should return planet by id successfully")
     void getPlanet() throws Exception {
 
         var planetId = 1L;
@@ -111,9 +111,35 @@ class PlanetControllerTest {
                 .contentType(APPLICATION_JSON)
                 .characterEncoding("utf-8");
 
-       mockMvc.perform(requestBuilder)
+        mockMvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof UnknownPlanetException));
 
     }
+
+
+    @Test
+    @Sql(scripts = {"/sql/planet-x5-y5.sql", "/sql/probe-x3-y3-planet-1-point-to-north.sql"})
+    @DisplayName("Should delete planet by id and it's orphan successfully")
+    void deletePlanet() throws Exception {
+
+        var planetId = 1L;
+        var probeId = 1L;
+
+        MockHttpServletRequestBuilder requestBuilder = delete(String.format("/planets/%d", planetId))
+                .contentType(APPLICATION_JSON)
+                .characterEncoding("utf-8");
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isNoContent());
+
+        MockHttpServletRequestBuilder requestBuilder2 = get(String.format("/probes/%d", probeId))
+                .contentType(APPLICATION_JSON)
+                .characterEncoding("utf-8");
+
+        mockMvc.perform(requestBuilder2)
+                .andExpect(status().isBadRequest());
+
+    }
+
 }
