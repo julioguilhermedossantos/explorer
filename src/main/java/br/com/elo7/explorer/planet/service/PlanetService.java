@@ -36,8 +36,6 @@ public class PlanetService {
 
         log.debug("[PLANET SERVICE] : Listando planetas");
 
-        List<PlanetRequestDTO> list = new ArrayList<>();
-
         return planetRepository.findAll()
                 .stream()
                 .map(planet -> objectMapper.convertValue(planet, PlanetResponseDTO.class))
