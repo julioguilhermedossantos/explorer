@@ -51,4 +51,9 @@ public class Planet {
             throw new CollisionExpection("Existe uma sonda pousada nesta posição!");
 
     }
+
+    public void addProbe(Probe probe){
+        probes.add(probe);
+        validate(probe.getPosition());
+    }
 }
