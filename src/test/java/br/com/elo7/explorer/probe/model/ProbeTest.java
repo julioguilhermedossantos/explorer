@@ -5,24 +5,34 @@ import br.com.elo7.explorer.util.FileUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProbeTest {
 
     @Test
-    @DisplayName("Should turn left: North -> West")
+    @DisplayName("Should turn left: North -> West, West -> South, South -> East and East -> North")
     void execute() {
 
-        var action = 'L';
+        var turn = 'L';
 
         var probe = getProvePositionX3Y3();
 
         var pointToBeforeAction = probe.getPointTo();
 
-        probe.execute(action);
+        assertEquals(PointTo.NORTH, pointToBeforeAction);
 
-        assertEquals(pointToBeforeAction, PointTo.NORTH);
-        assertEquals(probe.getPointTo(), PointTo.WEST);
+        probe.execute(turn);
+        assertEquals(PointTo.WEST, probe.getPointTo());
+
+        probe.execute(turn);
+        assertEquals(PointTo.SOUTH, probe.getPointTo());
+
+        probe.execute(turn);
+        assertEquals(PointTo.EAST, probe.getPointTo());
+
+        probe.execute(turn);
+        assertEquals(pointToBeforeAction, probe.getPointTo());
+
 
     }
 
@@ -30,19 +40,78 @@ class ProbeTest {
     @DisplayName("Should move +1 position on Y axis")
     void execute2() {
 
-        var action = 'M';
+        var move = 'M';
 
         var expectedCoordinateY = 4;
 
         var probe = getProvePositionX3Y3();
 
-        probe.execute(action);
+        probe.execute(move);
 
         assertEquals(expectedCoordinateY, probe.getPosition().getCoordinateY());
 
     }
 
-    private Probe getProvePositionX3Y3(){
+    @Test
+    @DisplayName("Should move -1 position on Y axis")
+    void execute3() {
+
+        var move = 'M';
+        var turns = new char[]{'L', 'L'};
+
+        var expectedCoordinateY = 2;
+
+        var probe = getProvePositionX3Y3();
+
+        for (char turn : turns) {
+            probe.execute(turn);
+        }
+
+        probe.execute(move);
+
+        assertEquals(expectedCoordinateY, probe.getPosition().getCoordinateY());
+
+    }
+
+    @Test
+    @DisplayName("Should move +1 position on X axis")
+    void execute4() {
+
+        var move = 'M';
+        var turns = new char[]{'L', 'L', 'L'};
+
+        var expectedCoordinateX = 4;
+
+        var probe = getProvePositionX3Y3();
+
+        for (char turn : turns) {
+            probe.execute(turn);
+        }
+
+        probe.execute(move);
+        assertEquals(expectedCoordinateX, probe.getPosition().getCoordinateX());
+
+    }
+
+    @Test
+    @DisplayName("Should move -1 position on X axis")
+    void execute5() {
+
+        var move = 'M';
+        var turn = 'L';
+
+        var expectedCoordinateX = 2;
+
+        var probe = getProvePositionX3Y3();
+
+        probe.execute(turn);
+        probe.execute(move);
+
+        assertEquals(expectedCoordinateX, probe.getPosition().getCoordinateX());
+
+    }
+
+    private Probe getProvePositionX3Y3() {
 
         var probe = FileUtil.fromJsonFile(
                 "probe-voyager-i-null-position-null-planet-point-to-east.json",
@@ -57,5 +126,6 @@ class ProbeTest {
         probe.setPosition(position);
 
         return probe;
+
     }
 }
