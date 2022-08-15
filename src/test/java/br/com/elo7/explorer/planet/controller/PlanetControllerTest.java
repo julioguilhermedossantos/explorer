@@ -1,5 +1,6 @@
 package br.com.elo7.explorer.planet.controller;
 
+import br.com.elo7.explorer.planet.dto.PlanetRequestDTO;
 import br.com.elo7.explorer.planet.model.Planet;
 import br.com.elo7.explorer.util.TestUtil;
 import org.junit.jupiter.api.DisplayName;
@@ -27,6 +28,19 @@ class PlanetControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Test
+    void create() throws Exception {
+
+        MockHttpServletRequestBuilder requestBuilder = post("/planets")
+                .content(TestUtil.StringFromJsonFile("planet-request-dto.json", PlanetRequestDTO.class))
+                .contentType(APPLICATION_JSON)
+                .characterEncoding("utf-8");
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isCreated());
+
+    }
 
     @Test
     @Sql("/sql/get-all-planets.sql")
