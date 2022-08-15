@@ -4,11 +4,9 @@ import br.com.elo7.explorer.advice.excepion.CollisionExpection;
 import br.com.elo7.explorer.advice.excepion.OrbitalLimitExceededException;
 import br.com.elo7.explorer.probe.model.Position;
 import br.com.elo7.explorer.probe.model.Probe;
-import br.com.elo7.explorer.util.FileUtil;
+import br.com.elo7.explorer.util.TestUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -18,18 +16,18 @@ class PlanetTest {
     @DisplayName("Should throw CollisionExpection when has other probe landed at same position")
     void validate_collisionExpection() {
 
-        var position = FileUtil.fromJsonFile("position-x3-y3.json", Position.class);
+        var position = TestUtil.fromJsonFile("position-x3-y3.json", Position.class);
 
-        var surface = FileUtil.fromJsonFile("surface-x5-y5.json", Surface.class);
+        var surface = TestUtil.fromJsonFile("surface-x5-y5.json", Surface.class);
 
-        var mars = FileUtil.fromJsonFile("planet-mars-null-surface-null-probes.json", Planet.class);
+        var mars = TestUtil.fromJsonFile("planet-mars-null-surface-null-probes.json", Planet.class);
 
-        var spaceX = FileUtil.fromJsonFile(
+        var spaceX = TestUtil.fromJsonFile(
                 "probe-space-x-null-position-null-north.json",
                 Probe.class
         );
 
-        var voyagerI = FileUtil.fromJsonFile(
+        var voyagerI = TestUtil.fromJsonFile(
                 "probe-voyager-i-null-position-null-planet-point-to-east.json",
                 Probe.class
         );
@@ -52,13 +50,13 @@ class PlanetTest {
     @DisplayName("Should throw OrbitalLimitExceededException when probe try to land out of orbital limit")
     void validate_orbitalLimitExceededException() {
 
-        var position = FileUtil.fromJsonFile("position-x5-y6.json", Position.class);
+        var position = TestUtil.fromJsonFile("position-x5-y6.json", Position.class);
 
-        var surface = FileUtil.fromJsonFile("surface-x5-y5.json", Surface.class);
+        var surface = TestUtil.fromJsonFile("surface-x5-y5.json", Surface.class);
 
-        var mars = FileUtil.fromJsonFile("planet-mars-null-surface-null-probes.json", Planet.class);
+        var mars = TestUtil.fromJsonFile("planet-mars-null-surface-null-probes.json", Planet.class);
 
-        var spaceX = FileUtil.fromJsonFile(
+        var spaceX = TestUtil.fromJsonFile(
                 "probe-space-x-null-position-null-north.json",
                 Probe.class
         );

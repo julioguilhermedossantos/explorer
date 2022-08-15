@@ -1,7 +1,7 @@
 package br.com.elo7.explorer.probe.model;
 
 import br.com.elo7.explorer.probe.enums.PointTo;
-import br.com.elo7.explorer.util.FileUtil;
+import br.com.elo7.explorer.util.TestUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -113,12 +113,12 @@ class ProbeTest {
 
     private Probe getProvePositionX3Y3() {
 
-        var probe = FileUtil.fromJsonFile(
+        var probe = TestUtil.fromJsonFile(
                 "probe-voyager-i-null-position-null-planet-point-to-east.json",
                 Probe.class
         );
 
-        var position = FileUtil.fromJsonFile(
+        var position = TestUtil.fromJsonFile(
                 "position-x3-y3.json",
                 Position.class
         );
