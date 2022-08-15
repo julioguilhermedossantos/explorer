@@ -43,10 +43,4 @@ public class PlanetController {
         return ResponseEntity.ok().body(planetService.find(id));
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        log.info("[PlanetController] : deletando planeta com id: {}", id);
-        planetService.deletePlanet(id);
-    }
 }

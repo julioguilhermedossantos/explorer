@@ -30,7 +30,7 @@ public class Planet {
 
     @JsonManagedReference
     @JoinColumn(name = "planet_id")
-    @OneToMany(orphanRemoval = true)
+    @OneToMany
     private Set<Probe> probes;
 
     public Boolean hasOtherProbeLandedAt(Position position) {
