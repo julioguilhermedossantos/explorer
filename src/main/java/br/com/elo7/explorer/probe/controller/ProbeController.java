@@ -24,7 +24,7 @@ public class ProbeController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@Valid @RequestBody ProbeRequestDTO ProbeRequestDTO) {
-        log.info("[PlanetController] : Criando sonda");
+        log.debug("[PlanetController] : Criando sonda");
         probeService.create(ProbeRequestDTO);
     }
 
@@ -35,13 +35,13 @@ public class ProbeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProbeResponseDTO> getProbe(@PathVariable Long id) {
-        log.info("[PlanetController] : Buscando sonda por id {}", id);
+        log.debug("[PlanetController] : Buscando sonda por id {}", id);
         return ResponseEntity.ok().body(probeService.find(id));
     }
 
     @PatchMapping("/{id}")
     public void moveProbe(@Valid @RequestBody ActionDTO actionDTO, @PathVariable Long id) {
-        log.info("[PlanetController] : movendo sonda: instrução {}", actionDTO.getAction());
+        log.debug("[PlanetController] : movendo sonda: instrução {}", actionDTO.getAction());
         probeService.moveProbe(actionDTO, id);
     }
 

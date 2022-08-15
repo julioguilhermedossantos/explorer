@@ -31,7 +31,7 @@ public class ProbeService {
 
     public List<ProbeResponseDTO> getAll() {
 
-        log.info("[PROBE SERVICE] : Listando sondas");
+        log.debug("[PROBE SERVICE] : Listando sondas");
 
         return probeRepository.findAll()
                 .stream()
@@ -49,9 +49,9 @@ public class ProbeService {
 
     public void create(ProbeRequestDTO probeRequestDTO) {
 
-        log.info("[PROBE SERVICE] : Criando sonda {}", probeRequestDTO.getName());
+        log.debug("[PROBE SERVICE] : Criando sonda {}", probeRequestDTO.getName());
 
-        var targetPlanet = planetRepository.findById(probeRequestDTO.getPlanetId())
+        var planet = planetRepository.findById(probeRequestDTO.getPlanetId())
                 .orElseThrow(() -> new UnknownPlanetException("Planeta não registrado!"));
 
         var requiredLandingPosition = objectMapper.convertValue(
@@ -62,20 +62,18 @@ public class ProbeService {
         var probe = Probe.builder()
                 .name(probeRequestDTO.getName())
                 .pointTo(probeRequestDTO.getPointTo())
-                .planet(targetPlanet)
-                .position(objectMapper.convertValue(probeRequestDTO.getPosition(), Position.class))
+                .planet(planet)
+                .position(objectMapper.convertValue(requiredLandingPosition, Position.class))
                 .build();
 
-        targetPlanet.getProbes().add(probe);
-
-        targetPlanet.validate(requiredLandingPosition);
+        planet.addProbe(probe);
 
         probeRepository.saveAndFlush(probe);
     }
 
     public void moveProbe(ActionDTO actionDTO, Long probeId) {
 
-        log.info("[PROBE SERVICE] : Movendo sonda de acordo com as instruções {}", actionDTO.getAction());
+        log.debug("[PROBE SERVICE] : Movendo sonda de acordo com as instruções {}", actionDTO.getAction());
 
         var probe = probeRepository.findById(probeId)
                 .orElseThrow(() -> new ProbeNotFoundException("Sonda não encontrada!"));
@@ -106,7 +104,7 @@ public class ProbeService {
 
     public ProbeResponseDTO find(Long id) {
 
-        log.info("[PROBE SERVICE] : Buscando sonda por id {}", id);
+        log.debug("[PROBE SERVICE] : Buscando sonda por id {}", id);
 
         var probe = probeRepository.findById(id)
                 .orElseThrow(() -> new ProbeNotFoundException("Sonda não encontrada!"));

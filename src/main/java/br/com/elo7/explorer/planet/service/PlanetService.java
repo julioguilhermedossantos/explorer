@@ -26,7 +26,7 @@ public class PlanetService {
     @SneakyThrows
     public void createPlanet(PlanetRequestDTO planetRequestDTO) {
 
-        log.info("[PLANET SERVICE] : Criando planeta");
+        log.debug("[PLANET SERVICE] : Criando planeta");
 
         planetRepository.saveAndFlush(objectMapper.convertValue(planetRequestDTO, Planet.class));
 
@@ -34,7 +34,7 @@ public class PlanetService {
 
     public List<PlanetResponseDTO> listPlanets() {
 
-        log.info("[PLANET SERVICE] : Listando planetas");
+        log.debug("[PLANET SERVICE] : Listando planetas");
 
         List<PlanetRequestDTO> list = new ArrayList<>();
 
@@ -47,7 +47,7 @@ public class PlanetService {
 
     public PlanetResponseDTO find(Long id) {
 
-        log.info("[PLANET SERVICE] : Buscando planet por id {}", id);
+        log.debug("[PLANET SERVICE] : Buscando planet por id {}", id);
 
         var planet = planetRepository.findById(id)
                 .orElseThrow(() -> new UnknownPlanetException("Planeta não encontrado"));

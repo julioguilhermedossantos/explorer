@@ -23,7 +23,7 @@ public class PlanetController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@Valid @RequestBody PlanetRequestDTO planetRequestDTO) {
-        log.info(
+        log.debug(
                 "[PlanetController] : Criando {} com tamanhos X({}) e Y({})",
                 planetRequestDTO.getName(),
                 planetRequestDTO.getSurface().getAxisX(),
@@ -33,13 +33,13 @@ public class PlanetController {
 
     @GetMapping
     public ResponseEntity<List<PlanetResponseDTO>> getAllPlanets() {
-        log.info("[PlanetController] : Listando planetas");
+        log.debug("[PlanetController] : Listando planetas");
         return ResponseEntity.ok().body(planetService.listPlanets());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PlanetResponseDTO> getPlanet(@PathVariable Long id) {
-        log.info("[PlanetController] : Buscando planeta por id {}", id);
+        log.debug("[PlanetController] : Buscando planeta por id {}", id);
         return ResponseEntity.ok().body(planetService.find(id));
     }
 
