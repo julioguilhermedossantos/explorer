@@ -10,7 +10,7 @@ services:
     environment:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/elo7
+      SPRING_DATASOURCE_URL: jdbc:postgresql:db:5432/elo7
     depends_on:
       - db
   db:
@@ -24,10 +24,11 @@ services:
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
+    restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: postgres
       PGADMIN_DEFAULT_PASSWORD: postgres
     ports:
-      - "5050:8080"
+      - "5050:80"
     depends_on:
       - db
