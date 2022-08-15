@@ -1,0 +1,9 @@
+{
+  "name": "Voyager I",
+  "position": {
+    "coordinateX": 6,
+    "coordinateY": 6
+  },
+  "pointTo": "EAST",
+  "planetId": 1
+}
