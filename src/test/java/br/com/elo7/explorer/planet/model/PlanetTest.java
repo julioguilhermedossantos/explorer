@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class PlanetTest {
 
     @Test
-    @DisplayName("Should return true when has other probe landed at same position")
+    @DisplayName("Should throw CollisionExpection when has other probe landed at same position")
     void validate_collisionExpection() {
 
         var position = FileUtil.fromJsonFile("position-x3-y3.json", Position.class);
