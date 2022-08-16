@@ -9,6 +9,7 @@ import br.com.elo7.explorer.probe.enums.PointTo;
 import br.com.elo7.explorer.probe.model.Position;
 import br.com.elo7.explorer.probe.model.Probe;
 import br.com.elo7.explorer.util.TestUtil;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -168,7 +169,7 @@ class ProbeControllerTest {
     }
 
     @Test
-    @DisplayName("Should move successfully")
+    @DisplayName("Should move using actions LMLMLMLMM successfully")
     @Sql({"/sql/planet-x5-y5.sql", "/sql/probe-x1-y2-planet-1-point-to-north.sql"})
     void move() throws Exception {
 
@@ -197,5 +198,53 @@ class ProbeControllerTest {
 
         assertThat(probe.getPosition()).usingRecursiveComparison().isEqualTo(expectedPosition);
         assertEquals(PointTo.NORTH, probe.getPointTo());
+    }
+
+    @Test
+    @DisplayName("Should move using actions MMRMMRMRRML successfully")
+    @Sql({"/sql/planet-x5-y5.sql", "/sql/probe-x3-y3-planet-1-point-to-east.sql"})
+    void move2() throws Exception {
+
+        var probeId = 1L;
+        var expectedPosition = TestUtil.fromJsonFile(
+                "position-x5-y1.json", Position.class);
+
+        MockHttpServletRequestBuilder requestBuilder = patch(String.format("/probes/%d", probeId))
+                .content(TestUtil.StringFromJsonFile("action-dto-result-x5-y1.json", ActionDTO.class))
+                .contentType(APPLICATION_JSON)
+                .characterEncoding("utf-8");
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isNoContent());
+
+        MockHttpServletRequestBuilder requestBuilder2 = get(String.format("/probes/%d", probeId))
+                .contentType(APPLICATION_JSON)
+                .characterEncoding("utf-8");
+
+        var result = mockMvc.perform(requestBuilder2)
+                .andExpect(status().isOk())
+                .andReturn();
+
+        var probe = TestUtil.fromJsonString(result.getResponse().getContentAsString(), Probe.class);
+
+
+        assertThat(probe.getPosition()).usingRecursiveComparison().isEqualTo(expectedPosition);
+        assertEquals(PointTo.NORTH, probe.getPointTo());
+    }
+
+    @Test
+    @DisplayName("Should throw InvalidFormatException")
+    void move3() throws Exception {
+
+        var probeId = 1L;
+
+        MockHttpServletRequestBuilder requestBuilder = patch(String.format("/probes/%d", probeId))
+                .content(TestUtil.StringFromJsonFile("action-dto-invalid.json"))
+                .contentType(APPLICATION_JSON)
+                .characterEncoding("utf-8");
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest());
+
     }
 }
