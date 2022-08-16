@@ -9,32 +9,32 @@ public enum PointTo {
     
     NORTH(1) {
         @Override
-        public PointTo changeOrientation(char direction) {
-            return direction == AllowedActions.L.getValue() ? WEST : EAST;
+        public PointTo changeOrientation(AllowedActions direction) {
+            return direction.getValue() == AllowedActions.L.getValue() ? WEST : EAST;
         }
 
     },
     SOUTH(-1) {
         @Override
-        public PointTo changeOrientation(char direction) {
-            return direction == AllowedActions.L.getValue() ? EAST : WEST;
+        public PointTo changeOrientation(AllowedActions direction) {
+            return direction.getValue() == AllowedActions.L.getValue() ? EAST : WEST;
         }
     },
     WEST(-1) {
         @Override
-        public PointTo changeOrientation(char direction) {
-            return direction == AllowedActions.L.getValue() ? SOUTH : NORTH;
+        public PointTo changeOrientation(AllowedActions direction) {
+            return direction.getValue() == AllowedActions.L.getValue() ? SOUTH : NORTH;
         }
     },
     EAST(1) {
         @Override
-        public PointTo changeOrientation(char direction) {
-            return direction == AllowedActions.L.getValue() ? NORTH : SOUTH;
+        public PointTo changeOrientation(AllowedActions direction) {
+            return direction.getValue() == AllowedActions.L.getValue() ? NORTH : SOUTH;
         }
     };
 
     private final Integer step;
 
-    public abstract PointTo changeOrientation(char direction);
+    public abstract PointTo changeOrientation(AllowedActions direction);
 
 }

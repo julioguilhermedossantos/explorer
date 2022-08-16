@@ -1,6 +1,7 @@
 package br.com.elo7.explorer.probe.model;
 
 import br.com.elo7.explorer.planet.model.Planet;
+import br.com.elo7.explorer.probe.enums.AllowedActions;
 import br.com.elo7.explorer.probe.enums.PointTo;
 import br.com.elo7.explorer.probe.enums.TurnActions;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -41,7 +42,7 @@ public class Probe {
     @ManyToOne
     private Planet planet;
 
-    public void execute(char action) {
+    public void execute(AllowedActions action) {
         if (isTurnAction(action)) {
             turn(action);
         } else {
@@ -61,14 +62,14 @@ public class Probe {
         return List.of(PointTo.NORTH, PointTo.SOUTH).contains(pointTo);
     }
 
-    private boolean isTurnAction(char action) {
+    private boolean isTurnAction(AllowedActions action) {
         return Arrays.stream(TurnActions.values())
                 .map(TurnActions::getValue)
-                .anyMatch(turnActions -> action == turnActions);
+                .anyMatch(turnActions -> action.getValue() == turnActions);
     }
 
-    private void turn(char action) {
-        setPointTo(pointTo.changeOrientation(action));
+    private void turn(AllowedActions actions) {
+        setPointTo(pointTo.changeOrientation(actions));
     }
 
 }
