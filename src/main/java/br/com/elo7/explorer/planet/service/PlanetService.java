@@ -6,9 +6,9 @@ import br.com.elo7.explorer.planet.repository.PlanetRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -26,11 +26,11 @@ public class PlanetService {
 
     }
 
-    public List<Planet> list() {
+    public Page<Planet> list(PageRequest pageRequest) {
 
         log.debug("[PLANET SERVICE] : Listando planetas");
 
-        return planetRepository.findAll();
+        return planetRepository.findAll(pageRequest);
 
     }
 

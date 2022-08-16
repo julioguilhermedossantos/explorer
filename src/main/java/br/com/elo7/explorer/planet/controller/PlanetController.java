@@ -7,6 +7,8 @@ import br.com.elo7.explorer.planet.service.PlanetService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,15 +42,12 @@ public class PlanetController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PlanetResponseDTO>> getAllPlanets() {
+    public ResponseEntity<Page<PlanetResponseDTO>> list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size) {
 
         log.debug("[PlanetController] : Listando planetas");
 
-        return ResponseEntity.ok().body(
-                planetService.list().stream()
-                .map(planet -> objectMapper.convertValue(planet, PlanetResponseDTO.class))
-                .collect(Collectors.toList())
-        );
+        return ResponseEntity.ok().body(planetService.list(PageRequest.of(page, size))
+                .map(planet -> objectMapper.convertValue(planet, PlanetResponseDTO.class)));
 
     }
 
