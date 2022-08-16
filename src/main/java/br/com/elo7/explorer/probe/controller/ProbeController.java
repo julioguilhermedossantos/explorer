@@ -78,6 +78,7 @@ public class ProbeController {
     }
 
     @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void move(@Valid @RequestBody ActionDTO actionDTO, @PathVariable Long id) {
 
         log.debug("[PlanetController] : movendo sonda");
