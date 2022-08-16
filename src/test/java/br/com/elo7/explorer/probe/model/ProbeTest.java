@@ -1,10 +1,13 @@
 package br.com.elo7.explorer.probe.model;
 
+import br.com.elo7.explorer.planet.model.Planet;
 import br.com.elo7.explorer.probe.enums.AllowedActions;
 import br.com.elo7.explorer.probe.enums.PointTo;
 import br.com.elo7.explorer.util.TestUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -105,16 +108,22 @@ class ProbeTest {
 
     private Probe getProvePositionX3Y3() {
 
+        var probes = new HashSet<Probe>();
+
         var probe = TestUtil.fromJsonFile(
                 "probe-voyager-i-null-position-null-planet-point-to-east.json",
                 Probe.class
         );
 
-        var position = TestUtil.fromJsonFile(
-                "position-x3-y3.json",
-                Position.class
-        );
+        var position = TestUtil.fromJsonFile("position-x3-y3.json", Position.class);
 
+        var planet = TestUtil.fromJsonFile("planet-response-dto.json", Planet.class);
+
+        probes.add(probe);
+
+        planet.setProbes(probes);
+
+        probe.setPlanet(planet);
         probe.setPosition(position);
 
         return probe;

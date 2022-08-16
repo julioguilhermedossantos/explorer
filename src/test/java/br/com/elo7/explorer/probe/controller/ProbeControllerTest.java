@@ -80,7 +80,7 @@ class ProbeControllerTest {
                 .characterEncoding("utf-8");
 
         mockMvc.perform(requestBuilder)
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isUnprocessableEntity())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof OrbitalLimitExceededException));
 
     }
@@ -96,7 +96,7 @@ class ProbeControllerTest {
                 .characterEncoding("utf-8");
 
         mockMvc.perform(requestBuilder)
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isUnprocessableEntity())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof CollisionExpection));
 
     }
@@ -245,7 +245,7 @@ class ProbeControllerTest {
                 .characterEncoding("utf-8");
 
         mockMvc.perform(requestBuilder)
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isUnprocessableEntity())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof HttpMessageNotReadableException));
 
     }
