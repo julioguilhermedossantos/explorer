@@ -1,5 +1,6 @@
 package br.com.elo7.explorer.probe.model;
 
+import br.com.elo7.explorer.probe.enums.AllowedActions;
 import br.com.elo7.explorer.probe.enums.PointTo;
 import br.com.elo7.explorer.util.TestUtil;
 import org.junit.jupiter.api.DisplayName;
@@ -13,24 +14,22 @@ class ProbeTest {
     @DisplayName("Should turn left: North -> West, West -> South, South -> East and East -> North")
     void execute() {
 
-        var turn = 'L';
-
         var probe = getProvePositionX3Y3();
 
         var pointToBeforeAction = probe.getPointTo();
 
         assertEquals(PointTo.NORTH, pointToBeforeAction);
 
-        probe.execute(turn);
+        probe.execute(AllowedActions.L);
         assertEquals(PointTo.WEST, probe.getPointTo());
 
-        probe.execute(turn);
+        probe.execute(AllowedActions.L);
         assertEquals(PointTo.SOUTH, probe.getPointTo());
 
-        probe.execute(turn);
+        probe.execute(AllowedActions.L);
         assertEquals(PointTo.EAST, probe.getPointTo());
 
-        probe.execute(turn);
+        probe.execute(AllowedActions.L);
         assertEquals(pointToBeforeAction, probe.getPointTo());
 
 
@@ -40,13 +39,11 @@ class ProbeTest {
     @DisplayName("Should move +1 position on Y axis")
     void execute2() {
 
-        var move = 'M';
-
         var expectedCoordinateY = 4;
 
         var probe = getProvePositionX3Y3();
 
-        probe.execute(move);
+        probe.execute(AllowedActions.M);
 
         assertEquals(expectedCoordinateY, probe.getPosition().getCoordinateY());
 
@@ -56,18 +53,17 @@ class ProbeTest {
     @DisplayName("Should move -1 position on Y axis")
     void execute3() {
 
-        var move = 'M';
-        var turns = new char[]{'L', 'L'};
+        var turns = new AllowedActions[]{AllowedActions.L, AllowedActions.L};
 
         var expectedCoordinateY = 2;
 
         var probe = getProvePositionX3Y3();
 
-        for (char turn : turns) {
+        for (AllowedActions turn : turns) {
             probe.execute(turn);
         }
 
-        probe.execute(move);
+        probe.execute(AllowedActions.M);
 
         assertEquals(expectedCoordinateY, probe.getPosition().getCoordinateY());
 
@@ -77,18 +73,17 @@ class ProbeTest {
     @DisplayName("Should move +1 position on X axis")
     void execute4() {
 
-        var move = 'M';
-        var turns = new char[]{'L', 'L', 'L'};
+        var turns = new AllowedActions[]{AllowedActions.L, AllowedActions.L, AllowedActions.L};
 
         var expectedCoordinateX = 4;
 
         var probe = getProvePositionX3Y3();
 
-        for (char turn : turns) {
+        for (AllowedActions turn : turns) {
             probe.execute(turn);
         }
 
-        probe.execute(move);
+        probe.execute(AllowedActions.M);
         assertEquals(expectedCoordinateX, probe.getPosition().getCoordinateX());
 
     }
@@ -97,15 +92,12 @@ class ProbeTest {
     @DisplayName("Should move -1 position on X axis")
     void execute5() {
 
-        var move = 'M';
-        var turn = 'L';
-
         var expectedCoordinateX = 2;
 
         var probe = getProvePositionX3Y3();
 
-        probe.execute(turn);
-        probe.execute(move);
+        probe.execute(AllowedActions.L);
+        probe.execute(AllowedActions.M);
 
         assertEquals(expectedCoordinateX, probe.getPosition().getCoordinateX());
 
