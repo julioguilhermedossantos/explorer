@@ -111,15 +111,15 @@ class PlanetControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        var planets = TestUtil.fromJsonString(result.getResponse().getContentAsString(), Planet.class);
+        var planet = TestUtil.fromJsonString(result.getResponse().getContentAsString(), Planet.class);
 
-        assertEquals(planetId, planets.getId());
+        assertEquals(planetId, planet.getId());
 
     }
 
     @Test
     @DisplayName("Should throw UnknownPlanetException")
-    void list3() throws Exception {
+    void findById2() throws Exception {
 
         var planetId = 99L;
 
