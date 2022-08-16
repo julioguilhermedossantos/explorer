@@ -1,6 +1,7 @@
 package br.com.elo7.explorer.advice;
 
 import br.com.elo7.explorer.advice.excepion.*;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,6 +77,13 @@ public class ExceptionsHandler {
     public ResponseEntity<ErrorMessage> handleIllegalArgument(IllegalArgumentException ex) {
         var exceptionMessage = ex.getMessage();
         log.error("[ExceptionsHandler] IllegalArgumentException: {}", exceptionMessage);
+        return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage));
+    }
+
+    @ExceptionHandler(value = {RuntimeException.class})
+    public ResponseEntity<ErrorMessage> handleRuntime(RuntimeException ex) {
+        var exceptionMessage = ex.getMessage();
+        log.error("[ExceptionsHandler] RuntimeException: {}", exceptionMessage);
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage));
     }
 
