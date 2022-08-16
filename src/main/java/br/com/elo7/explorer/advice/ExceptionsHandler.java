@@ -80,11 +80,4 @@ public class ExceptionsHandler {
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage));
     }
 
-    @ExceptionHandler(value = {RuntimeException.class})
-    public ResponseEntity<ErrorMessage> handleRuntime(RuntimeException ex) {
-        var exceptionMessage = ex.getMessage();
-        log.error("[ExceptionsHandler] RuntimeException: {}", exceptionMessage);
-        return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage));
-    }
-
 }
