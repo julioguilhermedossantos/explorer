@@ -53,9 +53,12 @@ public class Probe {
     private void move() {
         if (isVerticalMove()) {
             position.verticalMove(pointTo.getStep());
+
         } else {
             position.horizontalMove(pointTo.getStep());
+
         }
+        planet.validate(position);
     }
 
     private boolean isVerticalMove() {

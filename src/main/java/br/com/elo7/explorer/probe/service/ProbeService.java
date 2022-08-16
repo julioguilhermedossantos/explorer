@@ -54,8 +54,6 @@ public class ProbeService {
 
         }
 
-        probe.getPlanet().validate(probe.getPosition());
-
         probeRepository.saveAndFlush(probe);
 
     }
