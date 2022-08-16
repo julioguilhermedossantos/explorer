@@ -2,6 +2,7 @@ package br.com.elo7.explorer.probe.service;
 
 import br.com.elo7.explorer.advice.excepion.ProbeNotFoundException;
 import br.com.elo7.explorer.planet.service.PlanetService;
+import br.com.elo7.explorer.probe.enums.AllowedActions;
 import br.com.elo7.explorer.probe.model.Action;
 import br.com.elo7.explorer.probe.model.Probe;
 import br.com.elo7.explorer.probe.repository.ProbeRepository;
@@ -40,14 +41,14 @@ public class ProbeService {
 
     }
 
-    public void move(Action action, Long probeId) {
+    public void move(Action actions, Long probeId) {
 
-        log.debug("[PROBE SERVICE] : Movendo sonda de acordo com as instruções {}", action.getAction());
+        log.debug("[PROBE SERVICE] : Movendo sonda");
 
         var probe = probeRepository.findById(probeId)
                 .orElseThrow(() -> new ProbeNotFoundException("Sonda não encontrada!"));
 
-        for (char act : action.split()) {
+        for (AllowedActions act : actions.getActions()) {
 
             probe.execute(act);
 
@@ -59,14 +60,12 @@ public class ProbeService {
 
     }
 
-    public Probe find(Long id) {
+    public Probe findById(Long id) {
 
         log.debug("[PROBE SERVICE] : Buscando sonda por id {}", id);
 
-        var probe = probeRepository.findById(id)
+       return probeRepository.findById(id)
                 .orElseThrow(() -> new ProbeNotFoundException("Sonda não encontrada!"));
-
-        return probe;
 
     }
 }

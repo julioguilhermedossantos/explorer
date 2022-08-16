@@ -51,7 +51,8 @@ public class ProbeController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProbeResponseDTO>> list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size) {
+    public ResponseEntity<Page<ProbeResponseDTO>> list(@RequestParam(defaultValue = "0") Integer page,
+                                                       @RequestParam(defaultValue = "10") Integer size) {
 
         return ResponseEntity.ok().body(
                 probeService.list(PageRequest.of(page, size)).map(
@@ -72,16 +73,14 @@ public class ProbeController {
 
         log.debug("[PlanetController] : Buscando sonda por id {}", id);
 
-        return ResponseEntity.ok().body(objectMapper.convertValue(probeService.find(id), ProbeResponseDTO.class));
+        return ResponseEntity.ok().body(objectMapper.convertValue(probeService.findById(id), ProbeResponseDTO.class));
 
     }
 
     @PatchMapping("/{id}")
     public void move(@Valid @RequestBody ActionDTO actionDTO, @PathVariable Long id) {
 
-        log.debug("[PlanetController] : movendo sonda: instrução {}", actionDTO.getAction());
-
-        actionDTO.validate();
+        log.debug("[PlanetController] : movendo sonda");
 
         probeService.move(objectMapper.convertValue(actionDTO, Action.class), id);
 
