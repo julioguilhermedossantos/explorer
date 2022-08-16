@@ -1,9 +1,7 @@
 package br.com.elo7.explorer.probe.service;
 
 import br.com.elo7.explorer.advice.excepion.ProbeNotFoundException;
-import br.com.elo7.explorer.advice.excepion.UnknownPlanetException;
-import br.com.elo7.explorer.planet.repository.PlanetRepository;
-import br.com.elo7.explorer.probe.dto.ProbeResponseDTO;
+import br.com.elo7.explorer.planet.service.PlanetService;
 import br.com.elo7.explorer.probe.model.Action;
 import br.com.elo7.explorer.probe.model.Probe;
 import br.com.elo7.explorer.probe.repository.ProbeRepository;
@@ -19,7 +17,7 @@ import java.util.List;
 public class ProbeService {
 
     private final ProbeRepository probeRepository;
-    private final PlanetRepository planetRepository;
+    private final PlanetService planetService;
 
 
     public List<Probe> list() {
@@ -34,12 +32,12 @@ public class ProbeService {
 
         log.debug("[PROBE SERVICE] : Criando sonda {}", probe.getName());
 
-        var planet = planetRepository.findById(planetId)
-                .orElseThrow(() -> new UnknownPlanetException("Planeta não registrado!"));
+        var planet = planetService.findById(planetId);
 
         planet.addProbe(probe);
 
         probeRepository.saveAndFlush(probe);
+
     }
 
     public void move(Action action, Long probeId) {
@@ -58,6 +56,7 @@ public class ProbeService {
         probe.getPlanet().validate(probe.getPosition());
 
         probeRepository.saveAndFlush(probe);
+
     }
 
     public Probe find(Long id) {
