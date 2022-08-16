@@ -3,9 +3,13 @@ package br.com.elo7.explorer.probe.controller;
 import br.com.elo7.explorer.advice.excepion.CollisionExpection;
 import br.com.elo7.explorer.advice.excepion.OrbitalLimitExceededException;
 import br.com.elo7.explorer.advice.excepion.ProbeNotFoundException;
+import br.com.elo7.explorer.probe.dto.ActionDTO;
 import br.com.elo7.explorer.probe.dto.ProbeRequestDTO;
+import br.com.elo7.explorer.probe.enums.PointTo;
+import br.com.elo7.explorer.probe.model.Position;
 import br.com.elo7.explorer.probe.model.Probe;
 import br.com.elo7.explorer.util.TestUtil;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +20,11 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -164,6 +168,34 @@ class ProbeControllerTest {
     }
 
     @Test
-    void move() {
+    @DisplayName("Should move successfully")
+    @Sql({"/sql/planet-x5-y5.sql", "/sql/probe-x1-y2-planet-1-point-to-north.sql"})
+    void move() throws Exception {
+
+        var probeId = 1L;
+        var expectedPosition = TestUtil.fromJsonFile(
+                "position-x1-y3.json", Position.class);
+
+        MockHttpServletRequestBuilder requestBuilder = patch(String.format("/probes/%d", probeId))
+                .content(TestUtil.StringFromJsonFile("action-dto-result-x1-y3.json", ActionDTO.class))
+                .contentType(APPLICATION_JSON)
+                .characterEncoding("utf-8");
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isNoContent());
+
+        MockHttpServletRequestBuilder requestBuilder2 = get(String.format("/probes/%d", probeId))
+                .contentType(APPLICATION_JSON)
+                .characterEncoding("utf-8");
+
+        var result = mockMvc.perform(requestBuilder2)
+                .andExpect(status().isOk())
+                .andReturn();
+
+        var probe = TestUtil.fromJsonString(result.getResponse().getContentAsString(), Probe.class);
+
+
+        assertThat(probe.getPosition()).usingRecursiveComparison().isEqualTo(expectedPosition);
+        assertEquals(PointTo.NORTH, probe.getPointTo());
     }
 }
