@@ -7,9 +7,9 @@ import br.com.elo7.explorer.probe.model.Probe;
 import br.com.elo7.explorer.probe.repository.ProbeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -20,11 +20,11 @@ public class ProbeService {
     private final PlanetService planetService;
 
 
-    public List<Probe> list() {
+    public Page<Probe> list(PageRequest pageRequest) {
 
         log.debug("[PROBE SERVICE] : Listando sondas");
 
-        return probeRepository.findAll();
+        return probeRepository.findAll(pageRequest);
 
     }
 

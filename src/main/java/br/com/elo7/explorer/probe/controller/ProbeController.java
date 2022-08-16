@@ -12,13 +12,13 @@ import br.com.elo7.explorer.probe.service.ProbeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -51,18 +51,19 @@ public class ProbeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProbeResponseDTO>> list() {
+    public ResponseEntity<Page<ProbeResponseDTO>> list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size) {
 
-        return ResponseEntity.ok().body(probeService.list().stream()
-                .map(probe ->
-                        ProbeResponseDTO.builder()
+        return ResponseEntity.ok().body(
+                probeService.list(PageRequest.of(page, size)).map(
+                        probe -> ProbeResponseDTO.builder()
                                 .id(probe.getId())
                                 .name(probe.getName())
                                 .position(objectMapper.convertValue(probe.getPosition(), PositionDTO.class))
                                 .pointTo(probe.getPointTo())
                                 .planet(objectMapper.convertValue(probe.getPlanet(), PlanetResponseDTO.class))
-                                .build())
-                .collect(Collectors.toList()));
+                                .build()
+                )
+        );
 
     }
 
