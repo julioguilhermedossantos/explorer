@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 @Slf4j
 @RestControllerAdvice
@@ -52,16 +53,15 @@ public class ExceptionsHandler {
 
     @ExceptionHandler(value = {HttpMessageNotReadableException.class})
     public ResponseEntity<ErrorMessage> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
-        var exceptionMessage = ex.getMessage();
+
+        var exceptionMessage = Objects.requireNonNull(ex.getMessage());
+
+        if(exceptionMessage.contains("br.com.elo7.explorer.probe.enums.AllowedActions")){
+            return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, "Instrução válida!"));
+        }
+
         log.error("[ExceptionsHandler] HttpMessageNotReadableException: {}", exceptionMessage);
         return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage()));
-    }
-
-    @ExceptionHandler(value = {NotAllowedActionException.class})
-    public ResponseEntity<ErrorMessage> handleNotAllowedAction(NotAllowedActionException ex) {
-        var exceptionMessage = ex.getMessage();
-        log.error("[ExceptionsHandler] NotAllowedActionException: {}", exceptionMessage);
-        return ResponseEntity.badRequest().body(new ErrorMessage(HttpStatus.BAD_REQUEST, exceptionMessage));
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
